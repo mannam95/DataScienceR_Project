@@ -10,7 +10,7 @@ setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataSci
 truth<-read.table(truth_txt_path, header = FALSE, sep = ":") # target file 
 truth<- truth[ -c(2:3) ] # removing symbols ':::' ,as these are extra columns 
 colnames(truth)<-c('id','target') # naming columns as id and target 
-truth<-truth[order(truth$id),] # sorting the ids 
+truth<-truth[order(truth$id),] # sorting the ids
 
 # ----- tweets 
 
