@@ -38,6 +38,22 @@ features_extracted <- cbind(pre_Pro_Data, sentiment_feature_df)
 
 
 
+#below is for extraction of bi-grams and tri-grams
+
+#extract bi-grams
+tweet_text_bg <- pre_Pro_Data %>%
+  unnest_tokens(bigram_trigram, Tweet_Text, token = "ngrams", n = 2)
+
+#extract tri-grams
+tweet_text_tg <- pre_Pro_Data %>%
+  unnest_tokens(bigram_trigram, Tweet_Text, token = "ngrams", n = 3)
+
+#merge bi-grams and tri-grams
+everything <-rbind(tweet_text_bg, tweet_text_tg)
+
+
+
+
 
 
 
