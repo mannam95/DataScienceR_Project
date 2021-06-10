@@ -3,7 +3,7 @@ dataset_path = "dataset_original/training/"
 truth_txt_path = "dataset_original/training/truth.txt"
 en_train_path = "dataset_original/training/en/"
 output_dir_path_pre1 = "dataset_working/pre_processed_files/"
-setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataSciR') # change path accordingly 
+setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataScienceR') # change path accordingly 
 
 
 #------ truth file 

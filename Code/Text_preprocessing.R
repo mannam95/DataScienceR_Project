@@ -8,7 +8,7 @@ library(tidyverse)
 #directory paths paths
 first_preprocessed_csv_path = "dataset_working/pre_processed_files/dataset_pre1.csv"
 output_dir_path_pre2 = "dataset_working/pre_processed_files/pre_dataset_to_rows.csv"
-setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataSciR') # change path accordingly 
+setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataScienceR') # change path accordingly 
 
 text_corpus <- data.frame(read.csv( first_preprocessed_csv_path ))#reading csv file
 
