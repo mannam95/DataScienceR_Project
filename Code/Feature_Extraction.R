@@ -19,7 +19,7 @@ setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataSci
 pre_Pro_Data <- read.csv(file = csvLocation)
 glimpse(pre_Pro_Data)
 
-emotions_feature_df <- data.frame(matrix(ncol=8,nrow=0, dimnames=list(NULL, c("anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"))))
+emotions_feature_df <- data.frame(matrix(ncol=10,nrow=0, dimnames=list(NULL, c("anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust", "positive", "negative"))))
 
 #a function that will extract sentiment feature
 sentiment_feature <- function(current_Row_TweetText) {
@@ -29,7 +29,7 @@ sentiment_feature <- function(current_Row_TweetText) {
   nrc_data <- get_nrc_sentiment(sentence_vector)
   
   #store the tweet into a df
-  emotions_feature_df[nrow(emotions_feature_df) + 1,] = c(nrc_data[1, c(1)], nrc_data[1, c(2)], nrc_data[1, c(3)], nrc_data[1, c(4)], nrc_data[1, c(5)], nrc_data[1, c(6)], nrc_data[1, c(7)], nrc_data[1, c(8)])
+  emotions_feature_df[nrow(emotions_feature_df) + 1,] = c(nrc_data[1, c(1)], nrc_data[1, c(2)], nrc_data[1, c(3)], nrc_data[1, c(4)], nrc_data[1, c(5)], nrc_data[1, c(6)], nrc_data[1, c(7)], nrc_data[1, c(8)], nrc_data[1, c(9)], nrc_data[1, c(10)])
   
   assign("emotions_feature_df", emotions_feature_df, envir = .GlobalEnv)#globally change data
   
@@ -37,17 +37,34 @@ sentiment_feature <- function(current_Row_TweetText) {
   return(sum(sentence_vector_syuzhet_score))
 }
 
+#a function that will extract sentiment feature based on the method
+get_sentiment_by_method <- function(current_Row_TweetText, methodName) {
+  sentence_vector <- get_sentences(current_Row_TweetText)
+  sentence_vector_syuzhet_score <- get_sentiment(sentence_vector, method=methodName)
+  return(sum(sentence_vector_syuzhet_score))
+}
+
+
 
 #Empty sentiment data frame declaration
-sentiment_feature_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Sentiment"))))
+sentiment_feature_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Syuzhet"))))
+
+sentiment_feature_bing_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Bing"))))
+sentiment_feature_afinn_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Afinn"))))
+sentiment_feature_nrc_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Nrc"))))
 
 #loop over through each row
 for (row in 1:nrow(pre_Pro_Data)) {
   sentiment_feature_df[nrow(sentiment_feature_df) + 1,] = c(sentiment_feature(pre_Pro_Data[row, c(3)]))
+  
+  sentiment_feature_bing_df[nrow(sentiment_feature_bing_df) + 1,] = c(get_sentiment_by_method(pre_Pro_Data[row, c(3)], "bing"))
+  sentiment_feature_afinn_df[nrow(sentiment_feature_afinn_df) + 1,] = c(get_sentiment_by_method(pre_Pro_Data[row, c(3)], "afinn"))
+  sentiment_feature_nrc_df[nrow(sentiment_feature_nrc_df) + 1,] = c(get_sentiment_by_method(pre_Pro_Data[row, c(3)], "nrc"))
+  
 }
 
 #Combine all the features together
-features_extracted <- cbind(pre_Pro_Data, sentiment_feature_df, emotions_feature_df)
+features_extracted <- cbind(pre_Pro_Data, sentiment_feature_df, emotions_feature_df, sentiment_feature_bing_df, sentiment_feature_afinn_df, sentiment_feature_nrc_df)
 
 
 #write to a csv file
