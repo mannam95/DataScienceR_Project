@@ -12,11 +12,6 @@ library(dplyr)
 features_Data_train <- read.csv(file = csvLocation_train)
 features_Data_test <- read.csv(file = csvLocation_test)
 
-glimpse(features_Data_train)
-glimpse(features_Data_test)
-names(features_Data_train)
-names(features_Data_test)
-
 #A function that will return the test, train data
 create_train_test <- function(data, size, train = TRUE) {
   n_row = nrow(data)

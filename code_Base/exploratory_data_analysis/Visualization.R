@@ -123,7 +123,6 @@ getAuthorBasedTweets(authorId)
 
 # ensure the results are repeatable
 set.seed(7)
-# load the library
 #library(mlbench)
 #install.packages("caret")
 library(caret)

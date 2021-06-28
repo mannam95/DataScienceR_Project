@@ -27,7 +27,7 @@ glimpse(features_Data_train)
 #write to a csv file
 write.csv(features_Data_train, output_dir_path_fea1)
 
-#ENd of Train Data
+#End of Train Data
 
 #Start of Test Data
 
@@ -46,4 +46,4 @@ glimpse(features_Data_test)
 #write to a csv file
 write.csv(features_Data_test, output_dir_path_fea2)
 
-#ENd of Test Data
+#End of Test Data

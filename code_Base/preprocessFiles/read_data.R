@@ -14,7 +14,6 @@ library(dplyr)
 library(xml2)
 library(stringr)
 
-
 #------ training truth file 
 train_truth<-read.table(truth_txt_path, header = FALSE, sep = ":") # target file 
 train_truth<- train_truth[ -c(2:3) ] # removing symbols ':::' ,as these are extra columns 
