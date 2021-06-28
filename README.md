@@ -1,5 +1,4 @@
 # Classifying whether twitter author spreads hate using supervised learning
-Data Science with R Project
 
 ## Online usage will not work as of now, since the application is not hosted, Please test only for offline
 
