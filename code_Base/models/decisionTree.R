@@ -39,13 +39,6 @@ fit <- rpart(Target~., data = data_train, method = 'class')
 rpart.plot(fit, extra = 106)
 
 
-accuracy_tune <- function(fit) {
-  predict_unseen <- predict(fit, data_test, type = 'class')
-  table_mat <- table(data_test$Target, predict_unseen)
-  accuracy_Test <- sum(diag(table_mat)) / sum(table_mat)
-  print(paste('Accuracy for test', accuracy_Test))
-}
-
 control <- rpart.control(minsplit = 6,
                          minbucket = round(5 / 3),
                          maxdepth = 30,
@@ -53,5 +46,40 @@ control <- rpart.control(minsplit = 6,
 tune_fit <- rpart(Target~., data = data_train, method = 'class', control = control)
 
 
-accuracy_tune(fit)
-accuracy_tune(tune_fit)
+pred_test <- predict(fit, data_test, type = 'class')
+pred_test_tune <- predict(tune_fit, data_test, type = 'class')
+
+#a function that will print the accuracy
+return_accuracy <- function(predicted_data) {
+  predicted_Target_df <- data.frame(matrix(ncol=1,nrow=0, dimnames=list(NULL, c("Predicted_Target"))))
+  
+  for ( currVal in predicted_data){
+    predicted_Target_df[nrow(predicted_Target_df) + 1,] = c(currVal)
+  }
+  
+  model_results_df <- data.frame(matrix(ncol=3,nrow=0, dimnames=list(NULL, c("Author_Id", "Original", "Predicted"))))
+  
+  countZeros = 0
+  countOnes = 0
+  for (row in 1:nrow(predicted_Target_df)) {
+    
+    if(predicted_Target_df[row, c(1)] == 0){
+      countZeros = countZeros + 1
+    } else {
+      countOnes = countOnes + 1
+    }
+    
+    if(row %% 100 == 0){
+      model_results_df[nrow(model_results_df) + 1,] = c(nrow(model_results_df) + 1, data_test[row, c(36)], if(countOnes >= countZeros) 1 else 0)
+      countZeros = 0
+      countOnes = 0
+    }
+  }
+  
+  table_mat <- table(model_results_df$Original, model_results_df$Predicted)
+  accuracy_Test <- sum(diag(table_mat)) / sum(table_mat)
+  print(paste('Accuracy for test', accuracy_Test))
+}
+
+return_accuracy(pred_test)
+return_accuracy(pred_test_tune)
