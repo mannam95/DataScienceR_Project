@@ -7,7 +7,10 @@ These instructions will get you a copy of this project running on your local mac
 
 ### Prerequisites
 
-* In order to run the project first r studio needs to be installed
+1. Access to the Twitter Dataset
+1. [R](https://cran.rstudio.com/) (>=4.0.0)
+2. [RStudio](https://www.rstudio.com/products/rstudio/download/) (>=1.4)
+3. on Windows: [Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
 ### Installing
 
