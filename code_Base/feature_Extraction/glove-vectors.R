@@ -70,4 +70,32 @@ for(i in 1:r){
   all_vectors<- rbind(all_vectors,vectors)
 }
 
+#-------------------------------glove as excel--------------------------#
+
+# create copy of glove matrix as data frame
+copy<-as.data.frame(all_vectors)
+# delete first irredudunt row
+copy<-copy[-1,]
+#rename colnames 
+colnames(copy)<-c('id',1:100)
+library(tidyr)
+# y is of form- for author A tweet 1- it has glove vector of 25 dimensions
+# author * tweet - primary key 
+y<-copy %>%
+  pivot_longer(!id, names_to = "tweetNo", values_to = "vector")
+
+# create vectors matrix number of tweets * 25d
+a<-unlist(y[1,3])
+for (i in 2:20000 )
+{
+  a<-rbind(a,unlist(y[i,3]))
+}
+# bind both author, tweet data with vector data
+glove_data<-cbind(y,a)
+#delete list of vectors , extra now
+glove_data<-glove_data[,-3]
+y<-as.data.frame(glove_data)
+row.names(y)<-NULL 
+y = as.matrix(y)
+write.csv(y,"/Users/ramancheema/documents/glove_testData.csv")  
 
