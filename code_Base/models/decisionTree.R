@@ -1,7 +1,7 @@
 #files and directory paths
 csvLocation_train = "datasets/dataset_working/feature_extraction/train_data.csv"
 csvLocation_test = "datasets/dataset_working/feature_extraction/test_data.csv"
-setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataScienceR') # change path accordingly 
+setwd('C:/Users/SrinathMannam/Desktop/Github/DataScienceR') # change path accordingly 
 
 #import libraries
 #install.packages("tree")
@@ -27,7 +27,9 @@ create_train_test <- function(data, size, train = TRUE) {
 #data_train <- create_train_test(features_Data_train, 0.6, train = TRUE)
 #data_test <- create_train_test(features_Data_train, 0.4, train = FALSE)
 data_train <- features_Data_train
+#data_train <- data_train[!(names(data_train) %in% c('Author_Id', 'X'))]
 data_test <- features_Data_test
+#data_test <- data_test[!(names(data_test) %in% c('Author_Id', 'X'))]
 
 #prop.table(table(data_train$Target))
 #prop.table(table(data_test$Target))
@@ -35,7 +37,7 @@ data_test <- features_Data_test
 #install.packages("rpart.plot")
 library(rpart)
 library(rpart.plot)
-fit <- rpart(Target~., data = data_train, method = 'class')
+fit <- rpart(Target ~., data = data_train[!(names(data_train) %in% c('Author_Id', 'X'))], method = 'class')
 rpart.plot(fit, extra = 106)
 
 
@@ -43,10 +45,10 @@ control <- rpart.control(minsplit = 6,
                          minbucket = round(5 / 3),
                          maxdepth = 30,
                          cp = 0)
-tune_fit <- rpart(Target~., data = data_train, method = 'class', control = control)
+tune_fit <- rpart(Target~. -Author_Id -X, data = data_train, method = 'class', control = control)
 
 
-pred_test <- predict(fit, data_test, type = 'class')
+pred_test <- predict(fit, data_test[!(names(data_test) %in% c('Author_Id', 'X'))], type = 'class')
 pred_test_tune <- predict(tune_fit, data_test, type = 'class')
 
 #a function that will print the accuracy
@@ -83,3 +85,7 @@ return_accuracy <- function(predicted_data) {
 
 return_accuracy(pred_test)
 return_accuracy(pred_test_tune)
+
+
+table_mat <- table(features_Data_test$Target, pred_test)
+table_mat
