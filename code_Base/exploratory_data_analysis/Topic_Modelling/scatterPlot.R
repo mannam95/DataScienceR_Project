@@ -1,5 +1,5 @@
-dataset<- read.csv('/Users/ramancheema/Documents/Data Sci R - Project/data/training/preprocessed_data.csv')
-load("/Users/ramancheema/glove_emdeddings.RData")
+dataset<- read.csv('preprocessed_data.csv')
+load("glove_emdeddings.RData")
 library(dplyr)
 
 # 1. who else talking around these topics?
