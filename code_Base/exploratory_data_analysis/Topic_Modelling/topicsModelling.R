@@ -17,7 +17,7 @@ library(glmnet)
 
 rm(list=ls())
 
-dataset<- read.csv('/Users/ramancheema/Documents/Data Sci R - Project/data/training/preprocessed_data.csv')
+dataset<- read.csv('preprocessed_data.csv')
 train <- dataset %>% # for tf-idf 
   unite("tweets", tweet1:tweet100)
 
