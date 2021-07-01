@@ -7,10 +7,10 @@ These instructions will get you a copy of this project running on your local mac
 
 ### Prerequisites
 
-1. Access to the Twitter Dataset
-1. [R](https://cran.rstudio.com/) (>=4.0.0)
-2. [RStudio](https://www.rstudio.com/products/rstudio/download/) (>=1.4)
-3. on Windows: [Rtools](https://cran.r-project.org/bin/windows/Rtools/)
+1. Access to the Twitter Dataset [Link](https://pan.webis.de/clef21/pan21-web/author-profiling.html)
+2. [R](https://cran.rstudio.com/) (>=4.0.0)
+3. [RStudio](https://www.rstudio.com/products/rstudio/download/) (>=1.4)
+4. on Windows: [Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
 ### Installing
 
