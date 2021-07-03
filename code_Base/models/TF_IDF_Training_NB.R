@@ -1,19 +1,18 @@
-library(tidyverse)
-library(stringr)
-library(tidytext)
-
-
-
+#files and directory paths
 #setwd('C:/Users/Anish Singh/OneDrive/Documents/DWR/DataScienceR')
 preprocessed_data<- read.csv("dataset_working/pre_processed_files/pre_processed.csv")
 preprocessed_data_test<- read.csv("dataset_working/pre_processed_files/pre_processed_test_data_cols.csv")
-
+output_Path1 = "datasets/dataset_working/model_results/model_eval_authors.csv"
 
 library(tidyverse)
+library(stringr)
 library(tidytext)
 library(SnowballC)
 library(quanteda)
 library(dplyr)
+source("code_Base/models/reuse_functions.R")
+
+
 
 
 tweet <- preprocessed_data %>% # for tf-idf 
@@ -52,13 +51,16 @@ classifier <- e1071::naiveBayes(
 
 
 #########Predicting on test data########
+
 test_predicted <- 
   predict(classifier,
           as.matrix(tf_idF_DF_test[,3:ncol(tf_idF_DF_test)]))
 
-cfm <- caret::confusionMatrix(data = test_predicted,
-                              tf_idF_DF_test$Label)
-caret::confusionMatrix(table(test_predicted, tf_idF_DF_test$Label)) 
+#caret::confusionMatrix(table(test_predicted, tf_idF_DF_test$Label)) 
+
+eval_df <- evaluation_Metric(tf_idF_DF_test$Label, test_predicted, "TF-IDF Naive Bayes")
+#write to a csv file
+write_csv(eval_df, output_Path1)
 
 
 
@@ -69,15 +71,5 @@ caret::confusionMatrix(table(test_predicted, tf_idF_DF_test$Label))
 
 
 
-a<-tf_idF_DF[,3:ncol(tf_idF_DF)]
-names(tf_idF_DF) <- make.names(names(tf_idF_DF))
-
-
-colnames(tf_idF_matrix)[1:50]
-View(tf_idF_matrix[1:20, 1:100])
-dim(tf_idF_matrix)
-
-tf_idf<-data.frame(tf_idf)
-write.csv(tf_idf,'tf_idf.csv')
 
 
