@@ -116,7 +116,7 @@ getAuthorBasedTweets <- function(author_Id){
     mutate(percent = count / sum(count) * 100)
   
   
-  qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("Author Emotion Analysis")
+  qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("One Random Author Emotion Analysis")
 }
 
 getAuthorBasedTweets(authorId)
