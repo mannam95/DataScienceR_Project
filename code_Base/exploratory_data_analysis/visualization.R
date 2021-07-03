@@ -1,11 +1,13 @@
 #files and directory paths
-csvLocation = "dataset_working/feature_extraction/feature_extract_srinath.csv"
-setwd('D:/HP_Win10_OneDrive/Study/OVGU/University/Summer-2021/DSR/Github/DataScienceR') # change path accordingly 
+csvLocation = "datasets/dataset_working/feature_extraction/train_feature_extract_sentiments.csv"
+setwd('C:/Users/SrinathMannam/Desktop/Github/DataScienceR') # change path accordingly 
 
 library(dplyr)
 library(tidyverse)
+#install.packages("tm")
 library(tm)
 library(ggplot2)
+#install.packages("syuzhet")
 library(syuzhet)
 #install.packages("plotly")
 library(plotly)
