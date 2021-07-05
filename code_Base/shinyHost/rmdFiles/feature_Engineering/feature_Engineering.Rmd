@@ -1,0 +1,99 @@
+---
+title: "Feature Engineering"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+***
+#### **Word2vec**
+<p style="text-align: justify;">
+Word2Vec is a technique of natural language processing which uses a neural network model to learn word association from a large corpus of data. As the name suggests, word2vec represents each word with a list of numbers called a vector. These vectors of each word can be represented in multiple dimensions and are chosen by the model in a way that various mathematical functions like cosine similarity etc can be applied which helps in understanding the semantic similarity between the words.
+</p>
+We used word2vec package in R to get the word embedding:<br> 
+
+The package allows:<br>
+<div>
+* **to train word embedding using multiple threads on character data or data in a text file**
+* **use the embedding to find relations between words**
+</div>
+<p style="text-align: justify;">
+Here we have defined a Hate Speech vector with some custom hate words like “Hate”, “Criticism”, “Discrimination”, “Violent”, “race”,”abuse”,”threat” etc. After the word2vec model was trained , the generated embeddings are used to predict the nearest neighbours by calculating the cosine distance to this hate speech vector and are clustered together using the hierarchical clustering. Here is the plot for the same:
+</p>
+```{r eval=FALSE}
+dendo <- embedding[unlist(lapply(lookslike, `[`, 'term2')), ]
+dendo_dist = dist.cosine(dendo) %>% as.dist
+plot(as.dendrogram(hclust(dendo_dist)), horiz=F, cex=1, main="Cluster Dendogram of words closest to HateSpeech Vector")
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","Cluster_Dendogram_For_Hate_Speech_Vector.png"))
+
+```
+<p style="text-align: justify;">
+The embeddings generated from word2vec are vectors of each word in 25 dimensions thus we performed dimensionality reduction using UMAP (Uniform Manifold Approximation and Projection for Dimension Reduction) and then they are visualized. 
+</p>
+```{r eval=FALSE}
+ggplot(df, aes(x = x, y = y, label = word)) + 
+  geom_text_repel() + theme_void() + 
+  labs(title = "word2vec - Visualization of Embeddings in 2D using UMAP")
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","Static_Plot_Dimension_Reduction_2D_Using_UMAP_Word2Vec.jpeg"))
+
+```
+<p style="text-align: justify;">
+The reduced dimensions are used to create an interactive scatter plot which will depict the correlations of the words to each other. 
+</p>
+```{r eval=FALSE}
+plot_ly(df, x = ~x, y = ~y, type = "scatter", mode = 'text', text = ~word)
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","ScatterPlot_Hate_Speech_Corelations.png"))
+
+```
+
+
+#### **Glove**
+
+```{r eval = FALSE}
+authSig.pca <- prcomp(authorSignatures,  center = TRUE,scale. = TRUE) 
+autoplot(authSig.pca, data = dataset, colour = 'AuthorSpreading') 
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","scatterplotPCA.png"))
+
+```
+#### **Sentiment Analysis**
+
+```{r eval=FALSE}
+qplot(Sentiment, data=positive_df_column_count_df, weight=percent, geom="bar",fill=Sentiment, ylab="Percentage", xlab="Sentiment")+ggtitle("Tweets Sentiment Analysis")
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","pos_neg_Plot.png"))
+```
+
+```{r eval=FALSE}
+qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("One Random Author Emotion Analysis")
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","author_Plot.png"))
+```
+
+```{r eval=FALSE}
+plot_ly(sentiment_types_df, y=~syuzhet, type="scatter", mode="jitter", name="syuzhet") %>%
+  add_trace(y=~bing, mode="lines", name="bing") %>%
+  add_trace(y=~afinn, mode="lines", name="afinn") %>%
+  add_trace(y=~nrc, mode="lines", name="nrc") %>%
+  layout(title="Different type of sentiments for Author Tweets",
+         yaxis=list(title="Score"), xaxis=list(title="Number of tweets"))
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","sent_Plot.png"))
+```
+</div>
+

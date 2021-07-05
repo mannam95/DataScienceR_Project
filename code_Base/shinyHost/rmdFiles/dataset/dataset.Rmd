@@ -1,0 +1,25 @@
+---
+title: "Dataset"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+<div class="bodyRmdContent">
+* **Data source**<br>
+<p style="text-align: justify;">
+The source dataset for our project is from PAN dataset. The dataset which we are using is from an ongoing competition by professor of Polytechnic University of Valencia. The datasource for our project are XML files for 500 Twitter authors. There is one XML file per author and there are around 200 tweets in each file. For training set we have data for 300 authors and for test set it's about 200 authors. 
+</p>
+https://pan.webis.de/clef21/pan21-web/author-profiling.html <br>
+* **Cleanup**<br>
+<p style="text-align: justify;">
+Since the dataset we are working on were received in XML files and hence the conversion of file to CSV format was required. Thus we combined all the 500 XML’s together into one CSV file and then we followed a detailed pre-processing step on the converted file. We cleaned the data by removing the punctuation, special characters, stripped whitespaces, data conversion to lowercase and stopword removal. After which the data corpus was ready to be analysed. 
+Each of these pre-processing steps will be discussed in length in late sections of the document.
+R libraries like dplyr, xml2 and stringr were used for conversion. 
+</p>
+
+* **Storage**<br>
+<p style="text-align: justify;">
+After pre-processing, the dataset in the csv format was used further for analysis and feature extraction. However we cannot share the dataset in public since the dataset is confidential and was acquired by requesting for research purposes only. 
+</p>
+</div>

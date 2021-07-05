@@ -17,6 +17,18 @@ library(rpart)
 library(rpart.plot)
 source("code_Base/models/reuse_functions.R")
 
+#Read the old evaluation metrics
+if(file.exists(output_Path1)){
+  curr_eval__authors_df <- read.csv(file = output_Path1)
+} else {
+  curr_eval__authors_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
+}
+if(file.exists(output_Path2)){
+  curr_eval__tweets_df <- read.csv(file = output_Path2)
+} else {
+  curr_eval__tweets_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
+}
+
 #Read the features extracted
 features_Data_train <- read.csv(file = csvLocation_train)
 features_Data_test <- read.csv(file = csvLocation_test)
@@ -33,8 +45,8 @@ pred_test <- predict(fit, data_test[!(names(data_test) %in% c('Author_Id', 'X', 
 #print(paste('Confusion Matrix based on all tweet level by Decision Tree Model'))
 eval_df <- evaluation_Metric(features_Data_test$Custom_Target, pred_test, "Decision Tree")
 #write to a csv file
-write_csv(eval_df, output_Path2)
+write_csv(rbind(curr_eval__tweets_df, eval_df), output_Path2)
 
-eval_df <- return_accuracy(pred_test, "Decision Tree:")
+eval_df <- return_accuracy(pred_test, "Decision Tree")
 #write to a csv file
-write_csv(eval_df, output_Path1)
+write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)

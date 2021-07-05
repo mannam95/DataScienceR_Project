@@ -1,9 +1,10 @@
 #files and directory paths
-#setwd('C:/Users/Anish Singh/OneDrive/Documents/DWR/DataScienceR')
-preprocessed_data<- read.csv("dataset_working/pre_processed_files/pre_processed.csv")
-preprocessed_data_test<- read.csv("dataset_working/pre_processed_files/pre_processed_test_data_cols.csv")
+setwd('C:/Users/SrinathMannam/Desktop/Github/DataScienceR') # change path accordingly 
+preprocessed_data<- read.csv("datasets/dataset_working/pre_processed_files/pre_processed.csv")
+preprocessed_data_test<- read.csv("datasets/dataset_working/pre_processed_files/pre_processed_test_data_cols.csv")
 output_Path1 = "datasets/dataset_working/model_results/model_eval_authors.csv"
 
+#import libraries
 library(tidyverse)
 library(stringr)
 library(tidytext)
@@ -12,7 +13,12 @@ library(quanteda)
 library(dplyr)
 source("code_Base/models/reuse_functions.R")
 
-
+#Read the old evaluation metrics
+if(file.exists(output_Path1)){
+  curr_eval__authors_df <- read.csv(file = output_Path1)
+} else {
+  curr_eval__authors_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
+}
 
 
 tweet <- preprocessed_data %>% # for tf-idf 
@@ -25,7 +31,7 @@ tf_idf<- tweet%>%
   unnest_tokens(word, tweets) %>%
   anti_join(get_stopwords(), by = "word") %>%
   mutate(stem = wordStem(word)) %>%
-  count(id, stem) %>%
+  dplyr::count(id, stem) %>%
   bind_tf_idf(stem, id, n) %>%
   cast_dfm(id, stem, tf_idf)
 tf_idF_matrix <- as.matrix(tf_idf)
@@ -36,7 +42,7 @@ tf_idf_test<- tweet_test %>%
   unnest_tokens(word, tweets) %>%
   anti_join(get_stopwords(), by = "word") %>%
   mutate(stem = wordStem(word)) %>%
-  count(id, stem) %>%
+  dplyr::count(id, stem) %>%
   bind_tf_idf(stem, id, n) %>%
   cast_dfm(id, stem,tf_idf)
 tf_idF_matrix_test <- as.matrix(tf_idf_test)
@@ -60,7 +66,7 @@ test_predicted <-
 
 eval_df <- evaluation_Metric(tf_idF_DF_test$Label, test_predicted, "TF-IDF Naive Bayes")
 #write to a csv file
-write_csv(eval_df, output_Path1)
+write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)
 
 
 

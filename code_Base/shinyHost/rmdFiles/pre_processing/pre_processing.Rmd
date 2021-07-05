@@ -1,0 +1,23 @@
+---
+title: "Pre Processing"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+<div class="bodyRmdContent">
+***
+<div style="margin-bottom:50px;">
+<p style="text-align: justify;">
+To preprocess the text simply means to bring the text into a form that is predictable and analyzable for our task. For our project, a task here is a combination of approach and domain. For example, extracting top keywords with TF-IDF (approach) from Tweets (domain) is an example of our Task. Our dataset contains textual data. Thus, we performed pre-processing on our dataset before moving to exploratory data analysis.This is a very important step in Natural language processing and for building any machine learning model as it helps in minimizing the computational time and also produces better quality tokens which further helps in correct research. The objective was achieved by using R libraries like dplyr,tm  and tidyverse.
+</p>
+Following steps were performed in data pre-processing:<br>
+<div>
+* **Removed Stop words from text**
+* **Removed punctuation, hyphen, numbers and roman numbers**
+* **Converted text to ASCII**
+* **Converted the text to lowercase**
+* **Performed stemming and tokenization**
+</div>
+</div>
+</div>

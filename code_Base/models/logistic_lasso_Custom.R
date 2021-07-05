@@ -26,8 +26,16 @@ features_Data_train <- read.csv(file = csvLocation_train)
 features_Data_test <- read.csv(file = csvLocation_test)
 
 #Read the old evaluation metrics
-curr_eval__authors_df <- read.csv(file = output_Path1)
-curr_eval__tweets_df <- read.csv(file = output_Path2)
+if(file.exists(output_Path1)){
+  curr_eval__authors_df <- read.csv(file = output_Path1)
+} else {
+  curr_eval__authors_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
+}
+if(file.exists(output_Path2)){
+  curr_eval__tweets_df <- read.csv(file = output_Path2)
+} else {
+  curr_eval__tweets_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
+}
 
 data_train <- features_Data_train
 x_train = as.matrix(data_train[!(names(data_train) %in% c('Author_Id', 'X', 'Target', 'Custom_Target'))])

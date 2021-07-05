@@ -1,0 +1,44 @@
+---
+title: "Introduction"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+### Background and motivation
+***
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+<p style="text-align: justify;">
+Around the world, we are seeing an unsettling groundswell of racism, xenophobia, and intolerance – including rising anti-Semitism, anti-Muslim hatred, and persecution of Christians. Many forms of communication including Social media are being exploited as platforms for spreading hate, which unfortunately later leads to acts of discrimination and violence. Popular belief and prevailing sentiments among the public majority are being amplified for political gain which targets minorities, women, migrants, refugees and thus leading to human rights violations in any form. Hate speech is a danger to social stability, democratic values, peace.
+
+</p>
+<p style="text-align: justify;">
+The term hate speech is understood as any kind of communication in speech, writing or behavior, that attacks or uses pejorative or discriminatory language concerning a person or a group based on who they are, in other words, based on their religion, ethnicity, nationality, race, color, descent, gender or another identity factor. This is often rooted in, and generates intolerance and hatred and, in certain contexts, can be demeaning and divisive
+</p>
+<p style="text-align: justify;">
+Addressing hate speech in all forms of communication is also crucial in maintaining human rights, and promote peace. It plays important role in preventing armed conflict, stopping violence against women, cruelty, crimes, and terrorism. Addressing hate speech does not intend to restricting freedom of speech. It aims to prevent hate speech from developing into something more vicious, particularly violence, hostility and incitement to discrimination, which is forbidden under international law. 
+ structure discovered.
+</p >
+<p style="text-align: justify;">
+Due to emergence of social media there has been increasing incidences of hate speech around the world on different subjects such as race, religion, gender,etc. Huge amount of data is generated on social media and it becomes important to detect the problem of hate speech to fight against misogyny and xenophobia. In the end we want to identify possible hate speech spreader on Twitter and restrict them, this can act as first step to stop hate speech from spreading in a community among online users and analyzing possible keywords that helpful in detecting hateful tweets.
+</p>
+</div>
+</div>
+

@@ -1,0 +1,27 @@
+---
+title: "References"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+* http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
+* https://rkabacoff.github.io/datavis/Univariate.html
+* https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html
+* https://medium.com/swlh/exploring-sentiment-analysis-a6b53b026131
+* http://www.sthda.com/english/articles/36-classification-methods-essentials/149-penalized-logistic-regression-essentials-in-r-ridge-lasso-and-elastic-net/
+* https://www.guru99.com/r-decision-trees.html
+</div>
+

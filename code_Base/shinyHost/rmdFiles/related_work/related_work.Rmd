@@ -1,0 +1,30 @@
+---
+title: "Related Work"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+<div class="bodyRmdContent">
+***
+<p style="text-align: justify;">
+The goal of our project is to classify the users and distinguish them on the basis of their tweets as Hate spreaders or not. While several other works exist on performing the same tasks, in the virtual world factors such as virality, or presumed anonymity distinguishes it from offline communication and make it potentially more dangerous and hurtful and thus the underlying work associated with it also very difficult.
+</p>
+<p style="text-align: justify;">
+From a computer science perspective, the scientific research of hate speech is new, and the number of studies in the subject is relatively less. During our literature research, we only identified a few survey articles.  As per a survey research paper named “A Survey on Automatic Detection of Hate Speech in Text” written by Paula Fortuna and Sergio Nunes, TEC and Faculty of Engineering, University of Porto:  the authors give a brief, thorough, organized, and critical review of the subject of automated hate speech detection in natural language processing in this survey. The research is broken down into various components. They begin by explaining the vocabulary needed to research hate speech. Then they go over the features that were employed in this challenge in further detail. Later, they concentrated on bullying research. There is also a part with certain uses, such as anticipating and mitigating alarming societal developments. They also have a piece on classification techniques and difficulties, as well as a section on data.
+</p>
+<p style="text-align: justify;">
+We also read the research done by Bosco et al and Manne, 2017 and  Università degli Studi di Torino (Italy) + Universitat Politecnica de Valencia (Spain).
+</p>
+<p style="text-align: justify;">
+Our method is complementary to the cited studies, but our project has unique characteristics that we will discuss here. We employ two types of features in our feature extraction procedure: "generic text mining features" and "particular hate speech detection features."  This distinction is important in our approach since the second group of characteristics is focused on the problem's specificities. To begin, we give more thorough definitions: we compare hate speech to other relevant ideas like sentiments/emotions, topics, TF-IDF and embeddings like word2vec, doc2vec and glove embeddings of hatred, and list hate speech classification standards.
+</p>
+## Project objectives
+***
+
+1. Classification of twitter users whether the user spread hate or not (binary     classification)
+2. Unsupervised keyword extraction from tweets to get target topics using NLP tools for classifying the stance of tweets towards a target topic.
+3. Analyzing keywords useful for hate speech detection.
+4. Comparison of different classifier (Naïve Bayes, Decision Trees, Logistic Regression)
+5. Visualizing insights after classification.
+</div>

@@ -1,0 +1,33 @@
+---
+title: "Models & Results"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+## Modelling and Results
+***
+
+```{r,out.width='70%', fig.align='center', fig.cap='Comparing different classifier per author',echo = FALSE}
+knitr::include_graphics(here("plots","Per_author_result.png"))
+```
+
+```{r,out.width='70%', fig.align='center', fig.cap='Comparing different classifier per tweet',echo = FALSE}
+knitr::include_graphics(here("plots","per_tweet_result.png"))
+```
+
+
+</div>
+

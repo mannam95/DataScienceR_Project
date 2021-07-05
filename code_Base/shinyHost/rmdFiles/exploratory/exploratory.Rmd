@@ -1,0 +1,135 @@
+---
+title: "Exploratory Data Analysis"
+output: 
+  html_document:
+    css: "../process_Style.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+***
+### **Glimpse of Data **
+<p style="text-align: justify;">
+The glimpse() function of the dplyr package can be used to see the columns of the dataset and display some portion of the data with respect to each attribute that can fit on a single line.<br> Here is glimpse of our dataset: 
+</p>
+
+```{r,out.width='70%', fig.align='center', fig.cap='Glimpse of Data',echo = FALSE}
+knitr::include_graphics(here("plots","data_glimpse.png"))
+```
+
+### **Wordclouds ** 
+<p style="text-align: justify;">
+A word cloud is a collection or cluster of words which works in a simple way of depicting the source textual data ( tweets in our case) in different sizes. The bigger and bolder the word appears, the more often it’s mentioned within our dataset and the more important it is.
+It is also known as tag clouds or text clouds and are ideal ways to pull out the most pertinent parts of textual data. They can also help business users compare and contrast two different pieces of text to find the wording similarities between the two like here we have derived Word Clouds for authors who are spreading hate and for authors who are not.
+</p>
+<p style="text-align: justify;">
+We generated word cloud for tweets which are spreading hate, as posted by various authors using the words from Bag Of Words Model and they are weighted by the term frequency. The words which are bolder and in large size implies more ratio of occurring frequency in the dataset.
+</p> 
+
+
+```{r eval=FALSE}
+wordcloud2(d_not_hate,figPath = figPath_twitter, size = 1,color = "skyblue",backgroundColor = "white")
+```{r,out.width='70%', fig.align='center', fig.cap='Wordcloud for Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","wordcloud_hate_bird.png"))
+```
+<p style="text-align: justify;">
+We generated word clouds for tweets which are NOT spreading hate, as posted by various authors using the words from Bag Of Words Model and they are weighted by the term frequency. The words which are bolder and in large size implies more ratio of occurring frequency in the dataset.
+</p> 
+```{r,out.width='70%', fig.align='center', fig.cap='Wordcloud for Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","Wordcloud_for_not_hate_bird.png"))
+```
+
+### **Term Frequency ** 
+
+
+
+```{r eval=FALSE}
+theme_set(theme_minimal())
+train_words_all %>%
+  top_n(50, n) %>%
+  arrange(n) %>%
+  mutate(word = factor(word, levels = word)) %>%
+  ggplot() +
+  labs(y='Frequency of Words',x='Words')+
+  geom_col(aes(word, n), color = "gray80", fill = "lightgreen") +
+  coord_flip()
+
+```{r,out.width='70%', fig.align='center', fig.cap='Term Frequency for Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","barpplot_hate.png"))
+
+```
+```{r , out.width='70%', fig.align='center',fig.cap='Term Frequency for Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","barPlot_Nonhate.png"))
+
+```
+<p style="text-align: justify;">
+We next compare average length of tweets in number of characters for people spreading hate and those who are not. There was no significant difference found in length of tweets.
+</p>
+```{r eval=FALSE}
+Sentence_length <- preprocessed_data_rows %>%
+  mutate(sen_length = str_length(Tweet_Text)) %>%
+  ggplot(aes(x=sen_length, y=as.factor(preprocessed_data_rows$Target), fill = preprocessed_data_rows$Target)) +
+  geom_density_ridges() +
+  scale_x_log10() +
+  theme(legend.position = "none") +
+  labs(x = "Sentence length [# characters]", y="Target")
+```{r , out.width='70%', fig.align='center',fig.cap='Average sentence length comparison',echo = FALSE}
+knitr::include_graphics(here("plots","sentence_length_comparison.png"))
+
+```
+
+
+
+### **Topic Modeling** 
+
+Write Text here
+
+```{r eval=FALSE}
+top_terms %>%
+  mutate(term = reorder(term, beta)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() + theme_bw()
+
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","topics.png"))
+
+```
+### **Sentiment Analysis** 
+
+Write text here
+
+```{r eval=FALSE}
+ggplot(emotions_df_column_count_df, 
+       aes(x = "", 
+           y = percent, 
+           fill = Different_Emotions)) +
+  geom_bar(width = 1, 
+           stat = "identity", 
+           color = "black") +
+  geom_text(aes(label = paste0(Different_Emotions, "\n", round(percent,2))),
+            position = position_stack(vjust = 0.5),
+            color = "black") +
+  coord_polar("y", 
+              start = 0, 
+              direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "Tweets Emotion Analysis")
+
+```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+knitr::include_graphics(here("plots","emotions_Plot.png"))
+
+```
+</div>

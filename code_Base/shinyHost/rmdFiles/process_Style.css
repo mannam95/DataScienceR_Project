@@ -1,0 +1,17 @@
+.main-container{
+  max-width: 100% !important;
+}
+
+.content-wrapper {
+  font-size: 20px;
+}
+
+pre {
+  width: 70%;
+  margin-left: 15%;
+}
+
+.bodyRmdContent {
+  width:80%;
+  margin-left:10%;
+}

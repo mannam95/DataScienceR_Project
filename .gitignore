@@ -17,3 +17,7 @@ dataset_orginal/training/en/TweetsPerAuthor
 dataset_original/training/en/TweetsPerAuthor
 dataset_original/test/en/testdata
 *.csv
+code_Base/final_Proposal/rsconnect/shinyapps.io/srinath-m/final_Proposal.dcf
+*.dcf
+code_Base/shinyHost/Process_notebook_dwr.Rmd
+code_Base/shinyHost/Process_notebook_dwr.html
