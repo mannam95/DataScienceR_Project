@@ -77,14 +77,14 @@ body <- dashboardBody(
   tags$script(HTML("$('body').addClass('fixed');")),
   tags$script(HTML("$('body').css('background-color','#ecf0f5');")),
   tabItems(
-    tabItem("landing", includeHTML("rmdFiles/home/home.html")),
-    tabItem("relatedWork", includeHTML("rmdFiles/related_work/related_work.html")),
-    tabItem("dataset", includeHTML("rmdFiles/dataset/dataset.html")),
-    tabItem("pre_process", includeHTML("rmdFiles/pre_processing/pre_processing.html")),
-    tabItem("edanalysis", includeHTML("rmdFiles/exploratory/exploratory.html")),
-    tabItem("featureEng", includeHTML("rmdFiles/feature_Engineering/feature_Engineering.html")),
-    tabItem("model_Results", includeHTML("rmdFiles/models_Results/models_Results.html")),
-    tabItem("references", includeHTML("rmdFiles/references/references.html"))
+    tabItem("landing", htmlOutput("homeHtml")),
+    tabItem("relatedWork", htmlOutput("relatedWorkHtml")),
+    tabItem("dataset", htmlOutput("datasetHtml")),
+    tabItem("pre_process", htmlOutput("preProcessingHtml")),
+    tabItem("edanalysis", htmlOutput("exploratoryHtml")),
+    tabItem("featureEng", htmlOutput("featureEngineeringHtml")),
+    tabItem("model_Results", htmlOutput("modelsResultsHtml")),
+    tabItem("references", htmlOutput("referencesHtml"))
   )
 )
 
@@ -100,6 +100,47 @@ ui <- tagList(
   )
 )
 
-server <- shinyServer(function(input,output){})
+server <- shinyServer(function(input,output){
+  
+  getHomeHtml <- function(){
+    return(includeHTML("rmdFiles/home/home.html"))
+  }
+  
+  getRelated_WorkHtml <- function(){
+    return(includeHTML("rmdFiles/related_work/related_work.html"))
+  }
+  
+  getDatasetHtml <- function(){
+    return(includeHTML("rmdFiles/dataset/dataset.html"))
+  }
+  
+  getPre_ProcessingHtml <- function(){
+    return(includeHTML("rmdFiles/pre_processing/pre_processing.html"))
+  }
+  getExploratoryHtml <- function(){
+    return(includeHTML("rmdFiles/exploratory/exploratory.html"))
+  }
+  
+  getFeature_EngineeringHtml <- function(){
+    return(includeHTML("rmdFiles/feature_Engineering/feature_Engineering.html"))
+  }
+  
+  getModels_ResultsHtml <- function(){
+    return(includeHTML("rmdFiles/models_Results/models_Results.html"))
+  }
+  
+  getReferencesHtml <- function(){
+    return(includeHTML("rmdFiles/references/references.html"))
+  }
+  
+  output$homeHtml<-renderUI({getHomeHtml()})
+  output$relatedWorkHtml<-renderUI({getRelated_WorkHtml()})
+  output$datasetHtml<-renderUI({getDatasetHtml()})
+  output$preProcessingHtml<-renderUI({getPre_ProcessingHtml()})
+  output$exploratoryHtml<-renderUI({getExploratoryHtml()})
+  output$featureEngineeringHtml<-renderUI({getFeature_EngineeringHtml()})
+  output$modelsResultsHtml<-renderUI({getModels_ResultsHtml()})
+  output$referencesHtml<-renderUI({getReferencesHtml()})
+})
 
 shinyApp(ui, server)

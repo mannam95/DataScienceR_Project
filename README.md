@@ -1,8 +1,10 @@
 # Classifying whether twitter author spreads hate using supervised learning
 
-## Online usage will not work as of now, since the application is not hosted, Please test only for offline
+## Online Setup
 
-## Getting Started
+[https://srinath-m.shinyapps.io/shinyHost](https://srinath-m.shinyapps.io/shinyHost)
+
+## Offline Setup
 These instructions will get you a copy of this project running on your local machine for development and testing purposes
 
 ### Prerequisites
@@ -34,7 +36,7 @@ DataScienceR(Parent Folder)
 ```
 
 
-### Offline Usage:
+### Further Instructions:
 * Change the directory paths in all .R files accordingly.
 * First run read_data.R file and Text_preprocessing in "preprocessFiles" folder.R respectively. All the xml files will be converted here. 
 * Second run the Sentiments_Extract.R and followed by CombineFeatures.R in feature_Extraction folder. All the features will be extracted and combined together
