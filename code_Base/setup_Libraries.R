@@ -34,7 +34,30 @@ requiredPackages <- c(
   "utils",          
   "datasets",       
   "methods",        
-  "base" 
+  "base",
+  "ggfortify",
+  "tidytext",
+  "DT",
+  "knitr",
+  "wordcloud",
+  "igraph",
+  "ggraph",
+  "topicmodels",
+  "text2vec",
+  "data.table",
+  "glmnet",
+  "stylo",
+  "word2vec",
+  "ggrepel",
+  "doc2vec",
+  "SnowballC",
+  "quanteda",
+  "janeaustenr",
+  "e1071",
+  "naivebayes",
+  "plyr",
+  "repr",
+  "xml2"
 )
 
 checkPackages <- function(RequiredPackages) {

@@ -70,7 +70,7 @@ sidebar <- dashboardSidebar(
                   icon("sticky-note"),
                   strong("Process Notebook"),
                   height = 40,
-                  href = "https://github.com/anish-singh-07/DataScienceR",
+                  href = "https://github.com/anish-singh-07/DataScienceR/tree/main/process_Notebook",
                   title = "",
                   target = "_blank"
                 ),
