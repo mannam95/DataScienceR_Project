@@ -324,10 +324,7 @@ The embeddings generated from word2vec are vectors of each word in 25 dimensions
 </p>
 
 
-#```{r, out.width='80%', fig.align='center', fig.cap='interactive chart',echo = FALSE}
-#htmltools::includeHTML(here("plots","Interactive_Scatter_Plot_Word2Vec.html"))
 
-#```
 ```{r eval=FALSE}
 ggplot(df, aes(x = x, y = y, label = word)) + 
   geom_text_repel() + theme_void() + 
@@ -543,7 +540,7 @@ In future, different methods can be explored for author level classification.
 GitHub - https://github.com/anish-singh-07/DataScienceR<br>
 Dataset - https://pan.webis.de/clef21/pan21-web/author-profiling.html <br>
 Screencast Link - <br>
-Shinny App Link- <br>
+Shinny App Link - https://srinath-m.shinyapps.io/shinyHost <br>
 
 ## 11) Refernce Links
 ***
