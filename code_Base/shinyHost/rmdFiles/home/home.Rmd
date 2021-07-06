@@ -1,6 +1,8 @@
 ---
 #title: "Introduction"
-output: html_document
+output: 
+  html_document:
+    css: "../../www/custom.css"
 ---
 
 
@@ -15,7 +17,16 @@ text-align: justify}
 </style>
 
 <div class="bodyRmdContent">
-### **Background and Motivation**
+## Team Introduction
+During our Master's program as a part of Curriculum, We undertook “<a href="https://brain.cs.uni-magdeburg.de/kmd/DataSciR/" target="_blank">Data Science with R</a>” Seminar during the summer semester 2021 under <a href="https://www.kmd.ovgu.de/Team/Academic+Staff/Uli+Niemann.html" target="_blank">M.Sc. Uli Niemann</a> from the <a href="https://www.kmd.ovgu.de/" target="_blank">Knowledge Management & Discovery Lab(KMD)</a> at the Farafin faculty in Otto-von-Guericke-University(<a href="https://www.uni-magdeburg.de/" target="_blank">OVGU</a>) Magdeburg. 
+As per the scope of our Seminar , We opted for mandatory project based upon our preferences in Data Science. Our project “Classifying whether twitter author spreads hate using supervised learning” deals with formatting the text data, building explainable visualisations, extracting domain related features , performing different machine learning techniques and finally evaluating the results. We have created an introductory video fin which one can have a glimpse of our project and project details can be accessed through the navigation panels of the website. 
+Team members behind this project are mentioned below.<br>
+
+<div class="row"> <div class="column customColumn"> <div class="card customcard"> <img src="../../profile_Images/Anish.jpg" alt="Jane" style="width:100%"> <div class="profcontainer"> <h2>Anish Singh</h2> <p class="customtitle">Student</p><a href="mailto:anish.singh@st.ovgu.de">Email</a> <p><button title="button title" class="custombutton" onclick=" window.open('https://www.linkedin.com/in/anishsingh2911/', '_blank'); return false;">Contact</button></p> </div> </div> </div> <div class="column customColumn"> <div class="card customcard"> <img src="../../profile_Images/Priyanka.jpeg" alt="Mike" style="width:100%"> <div class="profcontainer"> <h2>Priyanka Singh</h2> <p class="customtitle">Student</p><a href="mailto:priyanka.singh@st.ovgu.de">Email</a> <p><button title="button title" class="custombutton" onclick=" window.open('https://www.linkedin.com/in/priyanka-singh1032/', '_blank'); return false;">Contact</button></p> </div> </div> </div> <div class="column customColumn"> <div class="card customcard"> <img src="../../profile_Images/Raman.jpeg" alt="John" style="width:100%"> <div class="profcontainer"> <h2>Ramanpreet Kaur</h2> <p class="customtitle">Student</p><a href="mailto:ramanpr1@st.ovgu.de">Email</a> <p><button title="button title" class="custombutton" onclick=" window.open('https://www.linkedin.com/in/ramanpreet-kaur-56217a1a7/', '_blank'); return false;">Contact</button></p> </div> </div> </div> <div class="column customColumn"> <div class="card customcard"> <img src="../../profile_Images/Srinath.JPG" alt="John" style="width:100%"> <div class="profcontainer"> <h2>Srinath Mannam</h2> <p class="customtitle">Student</p> <a href="mailto:venkata.mannam@st.ovgu.de">Email</a> <p><button title="button title" class="custombutton" onclick=" window.open('https://www.linkedin.com/in/srinath-mannam/', '_blank'); return false;">Contact</button></p> </div> </div> </div> </div>
+
+
+
+## 1) Background and motivation
 ***
 <style>
 div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}

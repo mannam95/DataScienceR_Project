@@ -6,4 +6,5 @@ rmarkdown::render("code_Base/shinyHost/rmdFiles/pre_processing/pre_processing.Rm
 rmarkdown::render("code_Base/shinyHost/rmdFiles/exploratory/exploratory.Rmd")
 rmarkdown::render("code_Base/shinyHost/rmdFiles/feature_Engineering/feature_Engineering.Rmd")
 rmarkdown::render("code_Base/shinyHost/rmdFiles/models_Results/models_Results.Rmd")
+rmarkdown::render("code_Base/shinyHost/rmdFiles/conclusion/conclusion.Rmd")
 rmarkdown::render("code_Base/shinyHost/rmdFiles/references/references.Rmd")

@@ -1,6 +1,8 @@
 ---
-title: "Feature Engineering"
-output: html_document
+#title: "Feature Engineering"
+output: 
+  html_document:
+    css: "../../www/custom.css"
 ---
 
 
@@ -15,18 +17,17 @@ text-align: justify}
 </style>
 
 <div class="bodyRmdContent">
+## 7) Feature Engineering
 ***
-#### **Word2vec**
+#### **7.1) Word2vec**
 <p style="text-align: justify;">
 Word2Vec is a technique of natural language processing which uses a neural network model to learn word association from a large corpus of data. As the name suggests, word2vec represents each word with a list of numbers called a vector. These vectors of each word can be represented in multiple dimensions and are chosen by the model in a way that various mathematical functions like cosine similarity etc can be applied which helps in understanding the semantic similarity between the words.
 </p>
 We used word2vec package in R to get the word embedding:<br> 
 
 The package allows:<br>
-<div>
-* **to train word embedding using multiple threads on character data or data in a text file**
-* **use the embedding to find relations between words**
-</div>
+1. To train word embedding using multiple threads on character data or data in a text file.<br>
+2. Use the embedding to find relations between words.
 <p style="text-align: justify;">
 Here we have defined a Hate Speech vector with some custom hate words like “Hate”, “Criticism”, “Discrimination”, “Violent”, “race”,”abuse”,”threat” etc. After the word2vec model was trained , the generated embeddings are used to predict the nearest neighbours by calculating the cosine distance to this hate speech vector and are clustered together using the hierarchical clustering. Here is the plot for the same:
 </p>
@@ -34,18 +35,21 @@ Here we have defined a Hate Speech vector with some custom hate words like “Ha
 dendo <- embedding[unlist(lapply(lookslike, `[`, 'term2')), ]
 dendo_dist = dist.cosine(dendo) %>% as.dist
 plot(as.dendrogram(hclust(dendo_dist)), horiz=F, cex=1, main="Cluster Dendogram of words closest to HateSpeech Vector")
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Cluster Dendogram of Words Closest to HateSpeech Vector',echo = FALSE}
 knitr::include_graphics(here("plots","Cluster_Dendogram_For_Hate_Speech_Vector.png"))
 
 ```
 <p style="text-align: justify;">
 The embeddings generated from word2vec are vectors of each word in 25 dimensions thus we performed dimensionality reduction using UMAP (Uniform Manifold Approximation and Projection for Dimension Reduction) and then they are visualized. 
 </p>
+
+
+
 ```{r eval=FALSE}
 ggplot(df, aes(x = x, y = y, label = word)) + 
   geom_text_repel() + theme_void() + 
   labs(title = "word2vec - Visualization of Embeddings in 2D using UMAP")
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Visualization of Embeddings in 2D using UMAP',echo = FALSE}
 knitr::include_graphics(here("plots","Static_Plot_Dimension_Reduction_2D_Using_UMAP_Word2Vec.jpeg"))
 
 ```
@@ -54,44 +58,66 @@ The reduced dimensions are used to create an interactive scatter plot which will
 </p>
 ```{r eval=FALSE}
 plot_ly(df, x = ~x, y = ~y, type = "scatter", mode = 'text', text = ~word)
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Topics Related to Tweets',echo = FALSE}
 knitr::include_graphics(here("plots","ScatterPlot_Hate_Speech_Corelations.png"))
 
 ```
 
 
-#### **Glove**
+#### **7.2) Glove**
+<p style="text-align: justify;">
+We used Pre-trained Glove embeddings trained on twitter dataset as tweets tend to be short and therefore capturing global word-word occurrence statistics can best be captured if baseline dataset also exhibits the same structure.<br>
+Each tweet by the author is represented as a vector of 25 Dimension. We decided for a 25 dimension vector as dimensions larger than 25 require more storage and computation time. 
+</p> 
+Steps Followed to get Vector of each Tweet:<br>
+1. Preprocessing of tweets - which includes removing stop words, punctuations , hyphens, numerics and unwanted wanted words like HASHTAG, USERS followed by Tokenization of words in tweets.<br>
+2. For every token in a tweet , get a vector of 25 dimensions using pre-trained GLOVE data.<br> 
+3. Summing all vectors,  followed by dividing by the total number of words in a tweet. This gives us a Tweet vector.
+
 
 ```{r eval = FALSE}
 authSig.pca <- prcomp(authorSignatures,  center = TRUE,scale. = TRUE) 
 autoplot(authSig.pca, data = dataset, colour = 'AuthorSpreading') 
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='PCA Reduced Scatterplot For Authors per Target Class',echo = FALSE}
 knitr::include_graphics(here("plots","scatterplotPCA.png"))
 
 ```
-#### **Sentiment Analysis**
+<p style="text-align: justify;">
+Since , Each author is labelled as Hate spreader or non hate spreader based upon the results of his/her tweets combined. Therefore, We also tried to plot Authors Signatures ( obtained by combining all his/her tweet’s vectors) . We used PCA to reduce dimensions for plotting the result as a scatterplot. We are not able to get much insights and separation of the classes from the scatterplot , classes seem to be overlapped. 
+</p>
+#### **7.3) Sentiment Analysis**
+<p style="text-align: justify;">
+The Bar chart shows the overall sentiment analysis of tweets by both category of authors with 60% tweets having negative and 40% positive sentiment. 
+</p>
 
 ```{r eval=FALSE}
 qplot(Sentiment, data=positive_df_column_count_df, weight=percent, geom="bar",fill=Sentiment, ylab="Percentage", xlab="Sentiment")+ggtitle("Tweets Sentiment Analysis")
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Overall Tweets Sentiment Analysis',echo = FALSE}
 knitr::include_graphics(here("plots","pos_neg_Plot.png"))
 ```
 
-```{r eval=FALSE}
-qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("One Random Author Emotion Analysis")
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
-knitr::include_graphics(here("plots","author_Plot.png"))
-```
-
+<p style="text-align: justify;">
+We used various methods to calculate the sentiment analysis such as Syuzhet, Bing, Afinn and Nrc. After analysing all the four method using the graph below, we decided to use Syuzhet for our further analysis as it depicts better range of values across all data.
+</p>
 ```{r eval=FALSE}
 plot_ly(sentiment_types_df, y=~syuzhet, type="scatter", mode="jitter", name="syuzhet") %>%
   add_trace(y=~bing, mode="lines", name="bing") %>%
   add_trace(y=~afinn, mode="lines", name="afinn") %>%
   add_trace(y=~nrc, mode="lines", name="nrc") %>%
-  layout(title="Different type of sentiments for Author Tweets",
-         yaxis=list(title="Score"), xaxis=list(title="Number of tweets"))
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
+  layout(title="Comparing Different Algorithms for Sentiment Analysis",
+         yaxis=list(title="Score"), xaxis=list(title="Comparing Different Algorithms for Sentiment Analysis"))
+```{r,out.width='80%', fig.align='center', fig.cap='Comparing Different Algorithms for Sentiment Analysis',echo = FALSE}
 knitr::include_graphics(here("plots","sent_Plot.png"))
 ```
+<p style="text-align: justify;">
+We also applied sentiment analysis to all tweets belonging to a particular author for demonstration. We thought this might be interesting to compare varied range of emotions exhibited by every author in his/her tweets.
+</p>
+
+```{r eval=FALSE}
+qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("One Author Emotion Analysis")
+```{r,out.width='80%', fig.align='center', fig.cap='One Author Emotion Analysis',echo = FALSE}
+knitr::include_graphics(here("plots","author_Plot.png"))
+```
+
 </div>
 
