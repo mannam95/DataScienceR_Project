@@ -31,12 +31,15 @@ DataScienceR(Parent Folder)
     datasets  
             dataset_original
             dataset_working
+    Plots
+    process_Notebook
     project_Proposal
     README.md
 ```
 
 
 ### Further Instructions:
+* Run the setup_Libraries.R file mentioned in the code_Base folder for installing all the packages.
 * Change the directory paths in all .R files accordingly.
 * First run read_data.R file and Text_preprocessing in "preprocessFiles" folder.R respectively. All the xml files will be converted here. 
 * Second run the Sentiments_Extract.R and followed by CombineFeatures.R in feature_Extraction folder. All the features will be extracted and combined together

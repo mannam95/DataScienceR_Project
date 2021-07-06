@@ -29,7 +29,8 @@ text_preprocessing <- function(data) {
       gsub("\\b[IVXLCDM]+\\b", " ", .)#roman numbers removal
     } %>%
     
-    tolower %>% #changing to lowercase
+    tolower() %>% #changing to lowercase
+    iconv(.,to="ASCII",sub="")%>%
     removeNumbers()%>%# removing numbers from data
     removeWords(words = stopwords(kind = "en")) #removing English dictionary stopwords
   return(processing)
