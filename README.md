@@ -40,6 +40,7 @@ DataScienceR(Parent Folder)
 
 ### Further Instructions:
 * Run the setup_Libraries.R file mentioned in the code_Base folder for installing all the packages.
+* In order to be able to view only the report created by us, you can navigate to "process_Notebook" folder and run the "Process_notebook_dwr.Rmd" file to generate "Process_notebook_dwr.html" and open this html file in any browser(Chrome etc.) for the report.
 * Change the directory paths in all .R files accordingly.
 * First run read_data.R file and Text_preprocessing in "preprocessFiles" folder.R respectively. All the xml files will be converted here. 
 * Second run the Sentiments_Extract.R and followed by CombineFeatures.R in feature_Extraction folder. All the features will be extracted and combined together
