@@ -1,0 +1,550 @@
+---
+title: "Classifying whether twitter author spreads hate using supervised learning "
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+  #rmarkdown::html_document:
+   # theme: lumen
+---
+<style type="text/css">
+.main-container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+
+
+
+
+<div style="margin-bottom:50px;">
+## 1 Background and motivation
+***
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+
+<p style="text-align: justify;">
+Around the world, we are seeing an unsettling groundswell of racism, xenophobia, and intolerance – including rising anti-Semitism, anti-Muslim hatred, and persecution of Christians. Many forms of communication including Social media are being exploited as platforms for spreading hate, which unfortunately later leads to acts of discrimination and violence. Popular belief and prevailing sentiments among the public majority are being amplified for political gain which targets minorities, women, migrants, refugees and thus leading to human rights violations in any form. Hate speech is a danger to social stability, democratic values, peace.
+
+</p>
+<p style="text-align: justify;">
+The term hate speech is understood as any kind of communication in speech, writing or behavior, that attacks or uses pejorative or discriminatory language concerning a person or a group based on who they are, in other words, based on their religion, ethnicity, nationality, race, color, descent, gender or another identity factor. This is often rooted in, and generates intolerance and hatred and, in certain contexts, can be demeaning and divisive
+</p>
+<p style="text-align: justify;">
+Addressing hate speech in all forms of communication is also crucial in maintaining human rights, and promote peace. It plays important role in preventing armed conflict, stopping violence against women, cruelty, crimes, and terrorism. Addressing hate speech does not intend to restricting freedom of speech. It aims to prevent hate speech from developing into something more vicious, particularly violence, hostility and incitement to discrimination, which is forbidden under international law. 
+ structure discovered.
+</p >
+<p style="text-align: justify;">
+Due to emergence of social media there has been increasing incidences of hate speech around the world on different subjects such as race, religion, gender,etc. Huge amount of data is generated on social media and it becomes important to detect the problem of hate speech to fight against misogyny and xenophobia. In the end we want to identify possible hate speech spreader on Twitter and restrict them, this can act as first step to stop hate speech from spreading in a community among online users and analyzing possible keywords that helpful in detecting hateful tweets.
+</p>
+</div>
+
+
+## 2 Related Work
+***
+<p style="text-align: justify;">
+The goal of our project is to classify the users and distinguish them on the basis of their tweets as Hate spreaders or not. While several other works exist on performing the same tasks, in the virtual world factors such as virality, or presumed anonymity distinguishes it from offline communication and make it potentially more dangerous and hurtful and thus the underlying work associated with it also very difficult.
+</p>
+<p style="text-align: justify;">
+From a computer science perspective, the scientific research of hate speech is new, and the number of studies in the subject is relatively less. During our literature research, we only identified a few survey articles.  As per a survey research paper named “A Survey on Automatic Detection of Hate Speech in Text” written by Paula Fortuna and Sergio Nunes, TEC and Faculty of Engineering, University of Porto:  the authors give a brief, thorough, organized, and critical review of the subject of automated hate speech detection in natural language processing in this survey. The research is broken down into various components. They begin by explaining the vocabulary needed to research hate speech. Then they go over the features that were employed in this challenge in further detail. Later, they concentrated on bullying research. There is also a part with certain uses, such as anticipating and mitigating alarming societal developments. They also have a piece on classification techniques and difficulties, as well as a section on data.
+</p>
+<p style="text-align: justify;">
+We also read the research done by Bosco et al and Manne, 2017 and  *Università degli Studi di Torino (Italy)* + *Universitat Politecnica de Valencia (Spain)*.
+</p>
+<p style="text-align: justify;">
+Our method is complementary to the cited studies, but our project has unique characteristics that we will discuss here. We employ two types of features in our feature extraction procedure: "generic text mining features" and "particular hate speech detection features."  This distinction is important in our approach since the second group of characteristics is focused on the problem's specificities. To begin, we give more thorough definitions: we compare hate speech to other relevant ideas like sentiments/emotions, topics, TF-IDF and embeddings like word2vec, doc2vec and glove embeddings of hatred, and list hate speech classification standards.
+</p>
+## 3 Project objectives
+***
+
+1. Classification of twitter users whether the user spread hate or not (binary     classification)
+2. Unsupervised keyword extraction from tweets to get target topics using NLP tools for classifying the stance of tweets towards a target topic.
+3. Analyzing keywords useful for hate speech detection.
+4. Comparison of different classifier (Naïve Bayes, Decision Trees, Logistic Regression)
+5. Visualizing insights after classification.
+
+
+## 4 Dataset
+***
+
+* **Data source**<br>
+<p style="text-align: justify;">
+The source dataset for our project is from PAN dataset. The dataset which we are using is from an ongoing competition by professor of Polytechnic University of Valencia. The datasource for our project are XML files for 500 Twitter authors. There is one XML file per author and there are around 200 tweets in each file. For training set we have data for 300 authors and for test set it's about 200 authors. 
+</p>
+https://pan.webis.de/clef21/pan21-web/author-profiling.html <br>
+* **Cleanup**<br>
+<p style="text-align: justify;">
+Since the dataset we are working on were received in XML files and hence the conversion of file to CSV format was required. Thus we combined all the 500 XML’s together into one CSV file and then we followed a detailed pre-processing step on the converted file. We cleaned the data by removing the punctuation, special characters, stripped whitespaces, data conversion to lowercase and stopword removal. After which the data corpus was ready to be analysed. 
+Each of these pre-processing steps will be discussed in length in late sections of the document.
+R libraries like dplyr, xml2 and stringr were used for conversion. 
+</p>
+
+* **Storage**<br>
+<p style="text-align: justify;">
+After pre-processing, the dataset in the csv format was used further for analysis and feature extraction. However we cannot share the dataset in public since the dataset is confidential and was acquired by requesting for research purposes only. 
+</p>
+
+## 5 Text Preprocessing
+***
+<p style="text-align: justify;">
+To preprocess the text simply means to bring the text into a form that is predictable and analyzable for our task. For our project, a task here is a combination of approach and domain. For example, extracting top keywords with TF-IDF (approach) from Tweets (domain) is an example of our Task. Our dataset contains textual data. Thus, we performed pre-processing on our dataset before moving to exploratory data analysis.This is a very important step in Natural language processing and for building any machine learning model as it helps in minimizing the computational time and also produces better quality tokens which further helps in correct research. The objective was achieved by using R libraries like dplyr,tm  and tidyverse.
+</p>
+Following steps were performed in data pre-processing:<br>
+<li>Removed Stop words from text</li>
+<li>Removed punctuation, hyphen, numbers and roman numbers</li>
+<li>Converted text to ASCII</li>
+<li>Converted the text to lowercase</li>
+<li>Performed stemming and tokenization</li>
+```{r eval=FALSE}
+text_preprocessing <- function(data) {
+  processing<-data %>%
+    
+    {
+      gsub('-', '', .)#removing hyphens
+    } %>%
+    
+    {
+      gsub('[[:punct:] ]+', ' ', .)#punctuation removal
+    } %>%
+    
+    {
+      gsub("\\b[IVXLCDM]+\\b", " ", .)#roman numbers removal
+    } %>%
+    
+    tolower() %>% #changing to lowercase
+    iconv(.,to="ASCII",sub="")%>%
+    removeNumbers()%>%# removing numbers from data
+    removeWords(words = stopwords(kind = "en")) #removing English dictionary stopwords
+  return(processing)
+}
+```
+
+
+
+
+
+
+## 6 Exploratory Data Analysis
+***
+### **6.1 Glimpse of Data ** 
+<p style="text-align: justify;">
+The glimpse() function of the dplyr package can be used to see the columns of the dataset and display some portion of the data with respect to each attribute that can fit on a single line.<br> Here is glimpse of our dataset: </p>
+
+```{r,out.width='80%', fig.align='center', fig.cap='Glimpse of the Data',echo = FALSE}
+knitr::include_graphics(here("plots","data_glimpse.png"))
+```
+
+### **6.2 Wordclouds ** 
+<p style="text-align: justify;">
+A word cloud is a collection or cluster of words which works in a simple way of depicting the source textual data ( tweets in our case) in different sizes. The bigger and bolder the word appears, the more often it’s mentioned within our dataset and the more important it is.
+It is also known as tag clouds or text clouds and are ideal ways to pull out the most pertinent parts of textual data. They can also help business users compare and contrast two different pieces of text to find the wording similarities between the two like here we have derived Word Clouds for authors who are spreading hate and for authors who are not.
+</p>
+<p style="text-align: justify;">
+We generated word cloud for tweets which are spreading hate, as posted by various authors using the words from Bag Of Words Model and they are weighted by the term frequency. The words which are bolder and in large size implies more ratio of occurring frequency in the dataset.
+</p> 
+
+
+```{r eval=FALSE}
+wordcloud2(d_not_hate,figPath = figPath_twitter, size = 1,color = "skyblue",backgroundColor = "white")
+```{r,out.width='80%', fig.align='center', fig.cap='Wordcloud for Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","wordcloud_hate_bird.png"))
+```
+<p style="text-align: justify;">
+We generated word clouds for tweets which are NOT spreading hate, as posted by various authors using the words from Bag Of Words Model and they are weighted by the term frequency. The words which are bolder and in large size implies more ratio of occurring frequency in the dataset.
+</p> 
+```{r,out.width='80%', fig.align='center', fig.cap='Wordcloud for Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","Wordcloud_for_not_hate_bird.png"))
+```
+
+### **6.3 Term Frequency ** 
+<p style="text-align: justify;">
+We analysed the frequency of words occurring in Tweets made by authors spreading Hate and Non Hate. 
+Words related to politics like Trump, Impeachment, President are majorly found in Hate spreading tweets. Also, words like Kardashians, Black, Awards, Women are found frequently too. 
+In Non Hate spreading tweets, highly frequent words are like IPhone, Happy, Beauty, Women, Family, Reviews. This gives us better insight that words related to Fashion, Products are majorly used in non hate tweets. 
+Some of the words like Trump, Women, News, Love are used both by the Hate spreading author and non Hate spreading authors.
+</p>
+```{r eval=FALSE}
+theme_set(theme_minimal())
+train_words_all %>%
+  top_n(50, n) %>%
+  arrange(n) %>%
+  mutate(word = factor(word, levels = word)) %>%
+  ggplot() +
+  labs(y='Frequency of Words',x='Words')+
+  geom_col(aes(word, n), color = "gray80", fill = "lightgreen") +
+  coord_flip()
+
+```{r,out.width='70%', fig.align='center', fig.cap='Term Frequency for Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","barpplot_hate.png"))
+
+```
+```{r , out.width='70%', fig.align='center',fig.cap='Term Frequency for Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","barPlot_Nonhate.png"))
+
+```
+<p style="text-align: justify;">
+We try to find out how often words are used by both categories of Authors.  
+Words Like ‘Season’, ‘tv’, ‘review', ‘film’ are  used frequently in non hate categories but have zero occurrence in Hate Category. Similarly, words like ‘Obama’, ‘Clinton’, ‘Reveals’, ‘Game’ are frequent in hate but not in non hate category. Trump is used in both category but frequency in hate is quite high compared to non hate. 
+</p>
+
+```{r eval=FALSE}
+train_words_target %>%
+  group_by(AuthorSpreading) %>%
+  top_n(20, n) %>%
+  ungroup() %>%
+  group_by(word) %>%
+  mutate(tot_n = sum(n)) %>%
+  ungroup() %>%
+  arrange(desc(tot_n)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>%
+  ggplot() +
+  geom_point(aes(AuthorSpreading, word, size = n, color = n), show.legend = FALSE) +
+  geom_text(aes(AuthorSpreading, word, label = n), hjust = -1) +
+  scale_color_distiller(palette = "YlOrRd") +
+  labs(y='Words Usage',x='Class')+
+  scale_size_continuous(range = c(1, 10))
+```{r , out.width='70%', fig.align='center',fig.cap='Word Usage for Hate and Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","word_usage.png"))
+
+```
+
+
+
+
+
+
+### **6.4 Tweet Length Comparison ** 
+
+<p style="text-align: justify;">
+We next compare average length of tweets in number of characters for people spreading hate and those who are not. There was no significant difference found in length of tweets.
+</p>
+```{r eval=FALSE}
+Sentence_length <- preprocessed_data_rows %>%
+  mutate(sen_length = str_length(Tweet_Text)) %>%
+  ggplot(aes(x=sen_length, y=as.factor(preprocessed_data_rows$Target), fill = preprocessed_data_rows$Target)) +
+  geom_density_ridges() +
+  scale_x_log10() +
+  theme(legend.position = "none") +
+  labs(x = "Sentence length [# characters]", y="Target")
+```{r , out.width='70%', fig.align='center',fig.cap='Average Tweet Length Comparison',echo = FALSE}
+knitr::include_graphics(here("plots","sentence_length_comparison.png"))
+
+```
+
+
+
+#### **6.5 Topic Modeling** 
+<p style="text-align: justify;">
+We used LDA (Latent Dirichlet allocation) to discover prevalent topics used by Hate spreading and non Hate spreading Authors. LDA is unsupervised classification of documents , in our case , a document is a collection of tweets tweeted by Authors.<br> 
+We observed that Hate Spreading Author’s Tweeted majorly about "Politics" and then followed by  Kardashians Jordyn Woods i.e. "Entertainment and Fashion industry". Whereas, Non Hate Spreading Authors tweeted more about topics like "TV Series", "Tech Products" and comparatively less about "Politics".
+</p>
+
+```{r eval=FALSE}
+top_terms %>%
+  mutate(term = reorder(term, beta)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() + theme_bw()
+
+```{r,out.width='80%', fig.align='center', fig.cap='Topics Related to Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","topics_Hate.png"))
+
+```
+```{r, out.width='80%', fig.align='center', fig.cap='Topics Related to Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","topics_nonHate.png"))
+
+```
+
+
+
+
+#### **6.6 Sentiment Analysis** 
+<p style="text-align: justify;">
+We examined the overall tweets in our training dataset for their sentiments , and the following Pie plot shows the distribution of different emotions exhibited in tweets of Hate spreading  and non Hate spreading authors. We are not able to observe huge difference  in emotions by both the category.
+</p>
+
+```{r eval=FALSE}
+ggplot(emotions_df_column_count_df, 
+       aes(x = "", 
+           y = percent, 
+           fill = Different_Emotions)) +
+  geom_bar(width = 1, 
+           stat = "identity", 
+           color = "black") +
+  geom_text(aes(label = paste0(Different_Emotions, "\n", round(percent,2))),
+            position = position_stack(vjust = 0.5),
+            color = "black") +
+  coord_polar("y", 
+              start = 0, 
+              direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "Tweets Emotion Analysis")
+
+```{r,out.width='80%', fig.align='center', fig.cap='Overall Emotions distribution in Tweets',echo = FALSE}
+knitr::include_graphics(here("plots","emotions_Plot.png"))
+
+```
+
+## 7 Feature Engineering
+***
+#### **7.1 Word2vec**
+<p style="text-align: justify;">
+Word2Vec is a technique of natural language processing which uses a neural network model to learn word association from a large corpus of data. As the name suggests, word2vec represents each word with a list of numbers called a vector. These vectors of each word can be represented in multiple dimensions and are chosen by the model in a way that various mathematical functions like cosine similarity etc can be applied which helps in understanding the semantic similarity between the words.
+</p>
+We used word2vec package in R to get the word embedding:<br> 
+
+The package allows:<br>
+1. To train word embedding using multiple threads on character data or data in a text file.<br>
+2. Use the embedding to find relations between words.
+<p style="text-align: justify;">
+Here we have defined a Hate Speech vector with some custom hate words like “Hate”, “Criticism”, “Discrimination”, “Violent”, “race”,”abuse”,”threat” etc. After the word2vec model was trained , the generated embeddings are used to predict the nearest neighbours by calculating the cosine distance to this hate speech vector and are clustered together using the hierarchical clustering. Here is the plot for the same:
+</p>
+```{r eval=FALSE}
+dendo <- embedding[unlist(lapply(lookslike, `[`, 'term2')), ]
+dendo_dist = dist.cosine(dendo) %>% as.dist
+plot(as.dendrogram(hclust(dendo_dist)), horiz=F, cex=1, main="Cluster Dendogram of words closest to HateSpeech Vector")
+```{r,out.width='80%', fig.align='center', fig.cap='Cluster Dendogram of Words Closest to HateSpeech Vector',echo = FALSE}
+knitr::include_graphics(here("plots","Cluster_Dendogram_For_Hate_Speech_Vector.png"))
+
+```
+<p style="text-align: justify;">
+The embeddings generated from word2vec are vectors of each word in 25 dimensions thus we performed dimensionality reduction using UMAP (Uniform Manifold Approximation and Projection for Dimension Reduction) and then they are visualized. 
+</p>
+
+
+#```{r, out.width='80%', fig.align='center', fig.cap='interactive chart',echo = FALSE}
+#htmltools::includeHTML(here("plots","Interactive_Scatter_Plot_Word2Vec.html"))
+
+#```
+```{r eval=FALSE}
+ggplot(df, aes(x = x, y = y, label = word)) + 
+  geom_text_repel() + theme_void() + 
+  labs(title = "word2vec - Visualization of Embeddings in 2D using UMAP")
+```{r,out.width='80%', fig.align='center', fig.cap='Visualization of Embeddings in 2D using UMAP',echo = FALSE}
+knitr::include_graphics(here("plots","Static_Plot_Dimension_Reduction_2D_Using_UMAP_Word2Vec.jpeg"))
+
+```
+<p style="text-align: justify;">
+The reduced dimensions are used to create an interactive scatter plot which will depict the correlations of the words to each other. 
+</p>
+```{r eval=FALSE}
+plot_ly(df, x = ~x, y = ~y, type = "scatter", mode = 'text', text = ~word)
+```{r,out.width='80%', fig.align='center', fig.cap='Topics Related to Tweets',echo = FALSE}
+knitr::include_graphics(here("plots","ScatterPlot_Hate_Speech_Corelations.png"))
+
+```
+
+
+#### **7.2 Glove**
+<p style="text-align: justify;">
+We used Pre-trained Glove embeddings trained on twitter dataset as tweets tend to be short and therefore capturing global word-word occurrence statistics can best be captured if baseline dataset also exhibits the same structure.<br>
+Each tweet by the author is represented as a vector of 25 Dimension. We decided for a 25 dimension vector as dimensions larger than 25 require more storage and computation time. 
+</p> 
+Steps Followed to get Vector of each Tweet:<br>
+1. Preprocessing of tweets - which includes removing stop words, punctuations , hyphens, numerics and unwanted wanted words like HASHTAG, USERS followed by Tokenization of words in tweets.<br>
+2. For every token in a tweet , get a vector of 25 dimensions using pre-trained GLOVE data.<br> 
+3. Summing all vectors,  followed by dividing by the total number of words in a tweet. This gives us a Tweet vector.
+
+
+```{r eval = FALSE}
+authSig.pca <- prcomp(authorSignatures,  center = TRUE,scale. = TRUE) 
+autoplot(authSig.pca, data = dataset, colour = 'AuthorSpreading') 
+```{r,out.width='80%', fig.align='center', fig.cap='PCA Reduced Scatterplot For Authors per Target Class',echo = FALSE}
+knitr::include_graphics(here("plots","scatterplotPCA.png"))
+
+```
+<p style="text-align: justify;">
+Since , Each author is labelled as Hate spreader or non hate spreader based upon the results of his/her tweets combined. Therefore, We also tried to plot Authors Signatures ( obtained by combining all his/her tweet’s vectors) . We used PCA to reduce dimensions for plotting the result as a scatterplot. We are not able to get much insights and separation of the classes from the scatterplot , classes seem to be overlapped. 
+</p>
+#### **7.3 Sentiment Analysis**
+<p style="text-align: justify;">
+The Bar chart shows the overall sentiment analysis of tweets by both category of authors with 60% tweets having negative and 40% positive sentiment. 
+</p>
+
+```{r eval=FALSE}
+qplot(Sentiment, data=positive_df_column_count_df, weight=percent, geom="bar",fill=Sentiment, ylab="Percentage", xlab="Sentiment")+ggtitle("Tweets Sentiment Analysis")
+```{r,out.width='80%', fig.align='center', fig.cap='Overall Tweets Sentiment Analysis',echo = FALSE}
+knitr::include_graphics(here("plots","pos_neg_Plot.png"))
+```
+
+<p style="text-align: justify;">
+We used various methods to calculate the sentiment analysis such as Syuzhet, Bing, Afinn and Nrc. After analysing all the four method using the graph below, we decided to use Syuzhet for our further analysis as it depicts better range of values across all data.
+</p>
+```{r eval=FALSE}
+plot_ly(sentiment_types_df, y=~syuzhet, type="scatter", mode="jitter", name="syuzhet") %>%
+  add_trace(y=~bing, mode="lines", name="bing") %>%
+  add_trace(y=~afinn, mode="lines", name="afinn") %>%
+  add_trace(y=~nrc, mode="lines", name="nrc") %>%
+  layout(title="Comparing Different Algorithms for Sentiment Analysis",
+         yaxis=list(title="Score"), xaxis=list(title="Comparing Different Algorithms for Sentiment Analysis"))
+```{r,out.width='80%', fig.align='center', fig.cap='Comparing Different Algorithms for Sentiment Analysis',echo = FALSE}
+knitr::include_graphics(here("plots","sent_Plot.png"))
+```
+<p style="text-align: justify;">
+We also applied sentiment analysis to all tweets belonging to a particular author for demonstration. We thought this might be interesting to compare varied range of emotions exhibited by every author in his/her tweets.
+</p>
+
+```{r eval=FALSE}
+qplot(Different_Emotions, data=author_emotions_df_column_count_df, weight=percent, geom="bar",fill=Different_Emotions, ylab="Percentage", xlab="Emotions")+ggtitle("One Author Emotion Analysis")
+```{r,out.width='80%', fig.align='center', fig.cap='One Author Emotion Analysis',echo = FALSE}
+knitr::include_graphics(here("plots","author_Plot.png"))
+```
+
+
+## 8 Modelling and Results
+***
+<p style="text-align: justify;">
+We have used 4 machine learning models and compared different evaluation metrics for them to achieve classification.Combination of all the features which was generated by the feature extraction phase was used as input for the models.<br>
+
+Following features are used in Machine Learning Models ( except baseline model):-
+<li>Sentiments - 9 dimensions using Syuzhet</li>
+<li>Word2Vec - 25 dimensions</li>
+<li>Glove embeddings -  25 dimensions using pertained model. </li>
+
+We faced a challenge with our dataset as the target is labelled author level for all his tweets combined altogether. As the author target is labelled as 1(which means the author spreads hate), using this information we cannot naively assume that all the tweets belonging to him are hate spreader tweets. Therefore, we have extracted the target called “CustomTarget” at tweet level. <br>
+The “CustomTarget” is extracted as mentioned below. Syuzhet package gives a positive, negative score given a text or sentence. Based on these scores, “CustomTarget” is decided.<br> 
+
+Algorithm for extracting the “CustomTarget”
+```{r, eval=FALSE}
+ If(positive == 0 && negative ==0)
+{
+#ignore the tweet
+}
+else if(negative >= positive)
+{
+   Label the CustomTarget to 1
+}
+else 
+{
+   Label the CustomTarget as 0
+}
+```
+
+<p style="text-align: justify;">
+
+In the above algorithm we have made 2 assumptions.
+<li>Ignoring the tweet if the positive and negative score is 0 as the text could be neutral.</li>
+<li> We are considering the tweet as negative even when the positive and negative scores are equal. We are biased towards making it as negative.</li>
+
+**Evaluation**<br>
+For evaluation we have used Confusion matrix to evaluate the model’s performance. The measures recorded are Accuracy, Precision, Recall and F1-Score.<br>
+We have compared the performance of all the models to baseline model of TF-IDF.
+<br>
+```{r,out.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","Per_author_result.png"))
+```
+**Discussion**<br>
+<p style="text-align: justify;">
+<li>We are able to achieve 61% Accuracy with TF-IDF matrix using Naive Byes model. We are using this model as our baseline for comparison to other features and models.</li>
+<li>Other feature set include Sentiment Analysis matrix , Word2Vec and Glove embeddings of 25 dimensions per tweet.</li>
+<li>Feature Set of all tweets is combined by per Author and fed to various Machine learning models. Highest reported accuracy is 63% by Naive Bayes classifier.</li>
+</p>
+
+
+<p style="text-align: justify;">
+**Adaptations made to Predicted Test Values for getting the Author Class**
+
+All the models except the baseline model will be trained on the extracted feature set (Sentiments, Word2Vec and Glove) with “CustomTarget” as target. Once the models are trained then we predict the test data.
+Predictions are generated on the test data at tweet level as the models are trained for each individual tweet instead author level. Therefore in order to get the author level predictions we applied the following algorithm.<br>
+
+Algorithm to predict labels for Authors 
+```{r, eval=FALSE}
+While(True){
+CountOnes = 0
+CountZeros = 0
+	While(Author_ID_IsSame){
+	   If(predicted_Target == 1){
+		CountOnes  +=1
+                 } 
+               else{
+              CountZeros  +=1
+                     }
+                }
+            If(CountOnes >= CountZeros){
+                Author_Predicted_Target = 1
+                } 
+             else{
+             Author_Predicted_Target = 1
+                }
+           If(No_Data){
+	break
+            }
+      }
+
+```
+
+
+
+
+We used the predictions produced by above algorithm for evaluating the model on Test dataset.
+```{r,out.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","per_tweet_result.png"))
+```
+**Discussion**<br>
+
+<li>Using Extracted Features, highest Accuracy of 86% is achieved by Logistic Regression followed by Decision tree with 85%.</li> 
+<li>We got better results with Word2Vec alone, therefore we decided to drop Glove embeddings for further analysis. This will help us to reduce computation time during training and testing.</li>
+
+## 9 Conclusion
+***
+<p style="text-align: justify;">
+1. We explored the dataset for prominent words and relations of words to target using word clouds, Frequency comparison plots etc. We concluded that there are common words used in both categories but their frequency varies.<br> 
+2. From topic modelling , we are able to summarise the topics used by Hate spreading and non Hate spreading authors.<br>
+3. We also faced the challenge in converting target to tweet level. Since, original target given is assigned per author and number of tweets per author can vary in test data. Additionally, tweet level target reduced the dimension of feature vector as compared to author level target.<br>
+4. We trained our models both on tweet level and author level target, and achieved better accuracy on tweet level dataset.<br>
+In future, different methods can be explored for author level classification.
+</p>
+
+## 10 Github and Related Links
+***
+GitHub - https://github.com/anish-singh-07/DataScienceR<br>
+Dataset - https://pan.webis.de/clef21/pan21-web/author-profiling.html <br>
+Screencast Link - <br>
+Shinny App Link- <br>
+
+## 11 Refernce Links
+***
+<div class="bodyRmdContent">
+* http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
+* https://rkabacoff.github.io/datavis/Univariate.html
+* https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html
+* https://medium.com/swlh/exploring-sentiment-analysis-a6b53b026131
+* http://www.sthda.com/english/articles/36-classification-methods-essentials/149-penalized-logistic-regression-essentials-in-r-ridge-lasso-and-elastic-net/
+* https://www.guru99.com/r-decision-trees.html
+* https://www.kaggle.com/ambarish/tutorial-detailed-spooky-fun-eda-and-modelling
+* https://cran.r-project.org/web/packages/word2vec/readme/README.html
+* https://www.youtube.com/watch?v=Zyu9cm4ui2c
+* https://cran.r-project.org/web/packages/word2vec/word2vec.pdf
+* http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
+* https://dl.acm.org/doi/pdf/10.1145/3232676
+* https://www.tidytextmining.com/topicmodeling.html
+* https://slcladal.github.io/topicmodels.html
+* https://towardsdatascience.com/beginners-guide-to-lda-topic-modelling-with-r-e57a5a8e7a25
+
+</div>
+
+## 12 Team members
+***
+| Name                       | Email-Id                                                     | Mattr No. |
+| -------------------------- | ------------------------------------------------------------ | --------- |
+| Anish Kumar Singh            | [anish.singh@st.ovgu.de](mailto:anish.singh@st.ovgu.de) | 234934    |
+| Priyanka Singh       | [priyanka.singh@st.ovgu.de](mailto:priyanka.singh@st.ovgu.de) | 235252    |
+| Ramanpreet Kaur | [ramanpr1@st.ovgu.de](mailto:ramanpr1@st.ovgu.de)  | 230367    |
+| Venkata Srinath Mannam            | [venkata.mannam@st.ovgu.de ](mailto:venkata.mannam@st.ovgu.de ) | 229750    | 
