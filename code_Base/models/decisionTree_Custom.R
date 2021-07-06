@@ -16,6 +16,7 @@ library(tidyverse)
 library(rpart)
 library(rpart.plot)
 source("code_Base/models/reuse_functions.R")
+library(ggplot2)
 
 #Read the old evaluation metrics
 if(file.exists(output_Path1)){
@@ -36,6 +37,22 @@ features_Data_test <- read.csv(file = csvLocation_test)
 data_train <- features_Data_train
 data_test <- features_Data_test
 
+#Plot the class distribution
+#Train
+barplot(prop.table(table(data_train$Custom_Target)),
+        col = "#219ebc",
+        ylim = c(0,1),
+        main = "Training Class Distribution")
+
+#Test
+barplot(prop.table(table(data_test$Custom_Target)),
+        col = "#8ecae6",
+        ylim = c(0,1),
+        main = "Test Class Distribution")
+
+#Plot the class distribution
+
+
 #model fitting
 fit <- rpart(Custom_Target~., data = data_train[!(names(data_train) %in% c('Author_Id', 'X', 'Target'))], method = 'class')
 rpart.plot(fit, extra = 106)
@@ -45,8 +62,8 @@ pred_test <- predict(fit, data_test[!(names(data_test) %in% c('Author_Id', 'X', 
 #print(paste('Confusion Matrix based on all tweet level by Decision Tree Model'))
 eval_df <- evaluation_Metric(features_Data_test$Custom_Target, pred_test, "Decision Tree")
 #write to a csv file
-write_csv(rbind(curr_eval__tweets_df, eval_df), output_Path2)
+#write_csv(rbind(curr_eval__tweets_df, eval_df), output_Path2)
 
 eval_df <- return_accuracy(pred_test, "Decision Tree")
 #write to a csv file
-write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)
+#write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)

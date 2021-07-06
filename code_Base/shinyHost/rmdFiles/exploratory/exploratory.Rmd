@@ -1,8 +1,6 @@
 ---
 title: "Exploratory Data Analysis"
-output: 
-  html_document:
-    css: "../process_Style.css"
+output: html_document
 ---
 
 

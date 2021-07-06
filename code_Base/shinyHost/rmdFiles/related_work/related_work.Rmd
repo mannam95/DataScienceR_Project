@@ -1,11 +1,10 @@
 ---
-title: "Related Work"
-output: 
-  html_document:
-    css: "../process_Style.css"
+#title: "Related Work"
+output: html_document
 ---
 
 <div class="bodyRmdContent">
+### **Related Work**
 ***
 <p style="text-align: justify;">
 The goal of our project is to classify the users and distinguish them on the basis of their tweets as Hate spreaders or not. While several other works exist on performing the same tasks, in the virtual world factors such as virality, or presumed anonymity distinguishes it from offline communication and make it potentially more dangerous and hurtful and thus the underlying work associated with it also very difficult.

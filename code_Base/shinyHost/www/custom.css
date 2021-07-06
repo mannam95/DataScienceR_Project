@@ -1,0 +1,44 @@
+.main-container{
+  max-width: 100% !important;
+}
+
+.content-wrapper {
+  font-size: 20px;
+  background-color: white;
+}
+
+pre {
+  width: 70%;
+  margin-left: 15%;
+}
+
+.bodyRmdContent {
+  width:80%;
+  margin-left:10%;
+}
+
+body{
+  background-color: white;
+}
+
+.skin-blue .main-header .logo {
+  position: fixed; 
+  overflow: visible;
+  
+  width:100%;
+}
+
+/* navbar (rest of the header) */
+.skin-blue .main-header .navbar {
+  position: fixed; 
+  overflow: visible;
+}        
+
+/* main sidebar */
+.skin-blue .main-sidebar {
+  position: fixed; 
+  overflow: visible;
+  
+  width: 220px;
+  white-space: nowrap;
+}

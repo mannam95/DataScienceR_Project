@@ -1,8 +1,6 @@
 ---
-title: "Introduction"
-output: 
-  html_document:
-    css: "../process_Style.css"
+#title: "Introduction"
+output: html_document
 ---
 
 
@@ -17,7 +15,7 @@ text-align: justify}
 </style>
 
 <div class="bodyRmdContent">
-### Background and motivation
+### **Background and Motivation**
 ***
 <style>
 div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}

@@ -1,31 +1,16 @@
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
+library(dashboardthemes)
 
 
 
 header <- dashboardHeader(
-  title = "Simple tabs",
-  tags$li(
-    a(
-      icon("sticky-note"),
-      strong("Process Notebook"),
-      height = 40,
-      href = "https://github.com/anish-singh-07/DataScienceR",
-      title = "",
-      target = "_blank"
-    ),
-    class = "dropdown"
-  ),
-  tags$li(
-    a(
-      icon("github"),
-      strong("About US"),
-      height = 40,
-      href = "https://github.com/anish-singh-07/DataScienceR",
-      title = "",
-      target = "_blank"
-    ),
-    class = "dropdown"
+  title =  shinyDashboardLogo(
+    theme = "purple_gradient",
+    boldText = "Classifying whether twitter author spreads hate using supervised learning",
+    mainText = "",
+    badgeText = "R Studio"
   )
 )
 
@@ -71,11 +56,39 @@ sidebar <- dashboardSidebar(
               menuItem('References',
                        icon = icon('external-link-square-alt'),
                        tabName = 'references'
+              ),
+              
+              #Process Notebook Link
+              tags$li(
+                a(
+                  icon("sticky-note"),
+                  strong("Process Notebook"),
+                  height = 40,
+                  href = "https://github.com/anish-singh-07/DataScienceR",
+                  title = "",
+                  target = "_blank"
+                ),
+                class = "dropdown"
+              ),
+              
+              #Github Link
+              tags$li(
+                a(
+                  icon("github"),
+                  strong("About US"),
+                  height = 40,
+                  href = "https://github.com/anish-singh-07/DataScienceR",
+                  title = "",
+                  target = "_blank"
+                ),
+                class = "dropdown"
               )))
 
 body <- dashboardBody(
   tags$script(HTML("$('body').addClass('fixed');")),
-  tags$script(HTML("$('body').css('background-color','#ecf0f5');")),
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+  ),
   tabItems(
     tabItem("landing", htmlOutput("homeHtml")),
     tabItem("relatedWork", htmlOutput("relatedWorkHtml")),
@@ -94,6 +107,7 @@ ui <- tagList(
   tags$div(
     dashboardPage(
       header,
+      title = "Classifying whether twitter author spreads hate using supervised learning",
       sidebar,
       body
     )
@@ -141,6 +155,8 @@ server <- shinyServer(function(input,output){
   output$featureEngineeringHtml<-renderUI({getFeature_EngineeringHtml()})
   output$modelsResultsHtml<-renderUI({getModels_ResultsHtml()})
   output$referencesHtml<-renderUI({getReferencesHtml()})
+  
+
 })
 
 shinyApp(ui, server)
