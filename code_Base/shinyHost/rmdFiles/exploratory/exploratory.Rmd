@@ -1,6 +1,8 @@
 ---
-title: "Exploratory Data Analysis"
-output: html_document
+#title: "Exploratory Data Analysis"
+output: 
+  html_document:
+    css: "../../www/custom.css"
 ---
 
 
@@ -15,17 +17,17 @@ text-align: justify}
 </style>
 
 <div class="bodyRmdContent">
+## 6) Exploratory Data Analysis
 ***
-### **Glimpse of Data **
+### **6.1) Glimpse of Data ** 
 <p style="text-align: justify;">
-The glimpse() function of the dplyr package can be used to see the columns of the dataset and display some portion of the data with respect to each attribute that can fit on a single line.<br> Here is glimpse of our dataset: 
-</p>
+The glimpse() function of the dplyr package can be used to see the columns of the dataset and display some portion of the data with respect to each attribute that can fit on a single line.<br> Here is glimpse of our dataset: </p>
 
-```{r,out.width='70%', fig.align='center', fig.cap='Glimpse of Data',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Glimpse of the Data',echo = FALSE}
 knitr::include_graphics(here("plots","data_glimpse.png"))
 ```
 
-### **Wordclouds ** 
+### **6.2) Wordclouds ** 
 <p style="text-align: justify;">
 A word cloud is a collection or cluster of words which works in a simple way of depicting the source textual data ( tweets in our case) in different sizes. The bigger and bolder the word appears, the more often it’s mentioned within our dataset and the more important it is.
 It is also known as tag clouds or text clouds and are ideal ways to pull out the most pertinent parts of textual data. They can also help business users compare and contrast two different pieces of text to find the wording similarities between the two like here we have derived Word Clouds for authors who are spreading hate and for authors who are not.
@@ -37,20 +39,23 @@ We generated word cloud for tweets which are spreading hate, as posted by variou
 
 ```{r eval=FALSE}
 wordcloud2(d_not_hate,figPath = figPath_twitter, size = 1,color = "skyblue",backgroundColor = "white")
-```{r,out.width='70%', fig.align='center', fig.cap='Wordcloud for Hate Spreader',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Wordcloud for Hate Spreader',echo = FALSE}
 knitr::include_graphics(here("plots","wordcloud_hate_bird.png"))
 ```
 <p style="text-align: justify;">
 We generated word clouds for tweets which are NOT spreading hate, as posted by various authors using the words from Bag Of Words Model and they are weighted by the term frequency. The words which are bolder and in large size implies more ratio of occurring frequency in the dataset.
 </p> 
-```{r,out.width='70%', fig.align='center', fig.cap='Wordcloud for Non Hate Spreader',echo = FALSE}
+```{r,out.width='80%', fig.align='center', fig.cap='Wordcloud for Non Hate Spreader',echo = FALSE}
 knitr::include_graphics(here("plots","Wordcloud_for_not_hate_bird.png"))
 ```
 
-### **Term Frequency ** 
-
-
-
+### **6.3) Term Frequency ** 
+<p style="text-align: justify;">
+We analysed the frequency of words occurring in Tweets made by authors spreading Hate and Non Hate. 
+Words related to politics like Trump, Impeachment, President are majorly found in Hate spreading tweets. Also, words like Kardashians, Black, Awards, Women are found frequently too. 
+In Non Hate spreading tweets, highly frequent words are like IPhone, Happy, Beauty, Women, Family, Reviews. This gives us better insight that words related to Fashion, Products are majorly used in non hate tweets. 
+Some of the words like Trump, Women, News, Love are used both by the Hate spreading author and non Hate spreading authors.
+</p>
 ```{r eval=FALSE}
 theme_set(theme_minimal())
 train_words_all %>%
@@ -71,6 +76,36 @@ knitr::include_graphics(here("plots","barPlot_Nonhate.png"))
 
 ```
 <p style="text-align: justify;">
+We try to find out how often words are used by both categories of Authors.  
+Words Like ‘Season’, ‘tv’, ‘review', ‘film’ are  used frequently in non hate categories but have zero occurrence in Hate Category. Similarly, words like ‘Obama’, ‘Clinton’, ‘Reveals’, ‘Game’ are frequent in hate but not in non hate category. Trump is used in both category but frequency in hate is quite high compared to non hate. 
+</p>
+
+```{r eval=FALSE}
+train_words_target %>%
+  group_by(AuthorSpreading) %>%
+  top_n(20, n) %>%
+  ungroup() %>%
+  group_by(word) %>%
+  mutate(tot_n = sum(n)) %>%
+  ungroup() %>%
+  arrange(desc(tot_n)) %>%
+  mutate(word = factor(word, levels = rev(unique(word)))) %>%
+  ggplot() +
+  geom_point(aes(AuthorSpreading, word, size = n, color = n), show.legend = FALSE) +
+  geom_text(aes(AuthorSpreading, word, label = n), hjust = -1) +
+  scale_color_distiller(palette = "YlOrRd") +
+  labs(y='Words Usage',x='Class')+
+  scale_size_continuous(range = c(1, 10))
+```{r , out.width='70%', fig.align='center',fig.cap='Word Usage for Hate and Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","word_usage.png"))
+
+```
+
+
+
+### **6.4) Tweet Length Comparison ** 
+
+<p style="text-align: justify;">
 We next compare average length of tweets in number of characters for people spreading hate and those who are not. There was no significant difference found in length of tweets.
 </p>
 ```{r eval=FALSE}
@@ -81,16 +116,18 @@ Sentence_length <- preprocessed_data_rows %>%
   scale_x_log10() +
   theme(legend.position = "none") +
   labs(x = "Sentence length [# characters]", y="Target")
-```{r , out.width='70%', fig.align='center',fig.cap='Average sentence length comparison',echo = FALSE}
+```{r , out.width='70%', fig.align='center',fig.cap='Average Tweet Length Comparison',echo = FALSE}
 knitr::include_graphics(here("plots","sentence_length_comparison.png"))
 
 ```
 
 
 
-### **Topic Modeling** 
-
-Write Text here
+#### **6.5) Topic Modeling** 
+<p style="text-align: justify;">
+We used LDA (Latent Dirichlet allocation) to discover prevalent topics used by Hate spreading and non Hate spreading Authors. LDA is unsupervised classification of documents , in our case , a document is a collection of tweets tweeted by Authors.<br> 
+We observed that Hate Spreading Author’s Tweeted majorly about "Politics" and then followed by  Kardashians Jordyn Woods i.e. "Entertainment and Fashion industry". Whereas, Non Hate Spreading Authors tweeted more about topics like "TV Series", "Tech Products" and comparatively less about "Politics".
+</p>
 
 ```{r eval=FALSE}
 top_terms %>%
@@ -100,13 +137,22 @@ top_terms %>%
   facet_wrap(~ topic, scales = "free") +
   coord_flip() + theme_bw()
 
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
-knitr::include_graphics(here("plots","topics.png"))
+```{r,out.width='80%', fig.align='center', fig.cap='Topics Related to Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","topics_Hate.png"))
 
 ```
-### **Sentiment Analysis** 
+```{r, out.width='80%', fig.align='center', fig.cap='Topics Related to Non Hate Spreader',echo = FALSE}
+knitr::include_graphics(here("plots","topics_nonHate.png"))
 
-Write text here
+```
+
+
+
+
+#### **6.6) Sentiment Analysis** 
+<p style="text-align: justify;">
+We examined the overall tweets in our training dataset for their sentiments , and the following Pie plot shows the distribution of different emotions exhibited in tweets of Hate spreading  and non Hate spreading authors. We are not able to observe huge difference  in emotions by both the category.
+</p>
 
 ```{r eval=FALSE}
 ggplot(emotions_df_column_count_df, 
@@ -126,8 +172,11 @@ ggplot(emotions_df_column_count_df,
   theme(legend.position = "FALSE") +
   labs(title = "Tweets Emotion Analysis")
 
-```{r,out.width='70%', fig.align='center', fig.cap='Topics related to tweets',echo = FALSE}
-knitr::include_graphics(here("plots","emotions_Plot.png"))
-
+```{r,out.width='80%', fig.align='center',echo = FALSE}
+knitr::include_graphics(here("plots","hate_emotions_Plot.png"))
 ```
+```{r,out.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","No_hate_emotions_Plot.png"))
+```
+
 </div>

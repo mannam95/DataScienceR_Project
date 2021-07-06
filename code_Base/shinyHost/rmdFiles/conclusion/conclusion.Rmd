@@ -1,0 +1,31 @@
+---
+#title: "Conclusion"
+output: 
+  html_document:
+    css: "../../www/custom.css"
+---
+
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+<div class="bodyRmdContent">
+## 9) Conclusion
+***
+<p style="text-align: justify;">
+1. We explored the dataset for prominent words and relations of words to target using word clouds, Frequency comparison plots etc. We concluded that there are common words used in both categories but their frequency varies.<br> 
+2. From topic modelling , we are able to summarise the topics used by Hate spreading and non Hate spreading authors.<br>
+3. We also faced the challenge in converting target to tweet level. Since, original target given is assigned per author and number of tweets per author can vary in test data. Additionally, tweet level target reduced the dimension of feature vector as compared to author level target.<br>
+4. We trained our models both on tweet level and author level target, and achieved better accuracy on tweet level dataset.<br>
+In future, different methods can be explored for author level classification.
+</p>
+
+</div>
+

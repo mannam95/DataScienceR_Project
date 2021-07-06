@@ -42,3 +42,59 @@ body{
   width: 220px;
   white-space: nowrap;
 }
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.customColumn {
+  float: left !important;
+  width: 25% !important;
+  margin-bottom: 16px !important;
+  padding: 0 8px !important;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100% !important;
+    display: block !important;
+  }
+}
+
+.customcard {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.profcontainer {
+  padding: 0 16px !important;
+}
+
+.profcontainer::after, .row::after {
+  content: "" !important;
+  clear: both !important;
+  display: table !important;
+}
+
+.customtitle {
+  color: grey !important;
+}
+
+.custombutton {
+  border: none !important;
+  outline: 0 !important;
+  display: inline-block !important;
+  padding: 8px !important;
+  color: white !important;
+  background-color: #000 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  width: 100% !important;
+}
+
+.custombutton:hover {
+  background-color: #555 !important;
+}

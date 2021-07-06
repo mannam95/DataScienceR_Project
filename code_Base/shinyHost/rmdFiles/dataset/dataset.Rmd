@@ -1,9 +1,14 @@
 ---
-title: "Dataset"
-output: html_document
+#title: "Dataset"
+output: 
+  html_document:
+    css: "../../www/custom.css"
 ---
 
 <div class="bodyRmdContent">
+## 4) Dataset
+***
+
 * **Data source**<br>
 <p style="text-align: justify;">
 The source dataset for our project is from PAN dataset. The dataset which we are using is from an ongoing competition by professor of Polytechnic University of Valencia. The datasource for our project are XML files for 500 Twitter authors. There is one XML file per author and there are around 200 tweets in each file. For training set we have data for 300 authors and for test set it's about 200 authors. 

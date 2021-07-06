@@ -52,6 +52,12 @@ sidebar <- dashboardSidebar(
                        tabName = 'model_Results'
               ), 
               
+              # Conclusion Page
+              menuItem('Conclusion',
+                       icon = icon('bars'),
+                       tabName = 'conclusion'
+              ),
+              
               # References Page
               menuItem('References',
                        icon = icon('external-link-square-alt'),
@@ -75,7 +81,7 @@ sidebar <- dashboardSidebar(
               tags$li(
                 a(
                   icon("github"),
-                  strong("About US"),
+                  strong("Git Repository"),
                   height = 40,
                   href = "https://github.com/anish-singh-07/DataScienceR",
                   title = "",
@@ -97,6 +103,7 @@ body <- dashboardBody(
     tabItem("edanalysis", htmlOutput("exploratoryHtml")),
     tabItem("featureEng", htmlOutput("featureEngineeringHtml")),
     tabItem("model_Results", htmlOutput("modelsResultsHtml")),
+    tabItem("conclusion", htmlOutput("conclusionHtml")),
     tabItem("references", htmlOutput("referencesHtml"))
   )
 )
@@ -143,6 +150,11 @@ server <- shinyServer(function(input,output){
     return(includeHTML("rmdFiles/models_Results/models_Results.html"))
   }
   
+  getConclusionHtml <- function(){
+    return(includeHTML("rmdFiles/conclusion/conclusion.html"))
+  }
+  
+  
   getReferencesHtml <- function(){
     return(includeHTML("rmdFiles/references/references.html"))
   }
@@ -154,6 +166,7 @@ server <- shinyServer(function(input,output){
   output$exploratoryHtml<-renderUI({getExploratoryHtml()})
   output$featureEngineeringHtml<-renderUI({getFeature_EngineeringHtml()})
   output$modelsResultsHtml<-renderUI({getModels_ResultsHtml()})
+  output$conclusionHtml<-renderUI({getConclusionHtml()})
   output$referencesHtml<-renderUI({getReferencesHtml()})
   
 

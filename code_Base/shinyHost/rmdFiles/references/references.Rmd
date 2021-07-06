@@ -1,6 +1,8 @@
 ---
-title: "References"
-output: html_document
+#title: "References"
+output: 
+  html_document:
+    css: "../../www/custom.css"
 ---
 
 
@@ -15,11 +17,23 @@ text-align: justify}
 </style>
 
 <div class="bodyRmdContent">
+## 11) Refernce Links
+***
 * http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
 * https://rkabacoff.github.io/datavis/Univariate.html
 * https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html
 * https://medium.com/swlh/exploring-sentiment-analysis-a6b53b026131
 * http://www.sthda.com/english/articles/36-classification-methods-essentials/149-penalized-logistic-regression-essentials-in-r-ridge-lasso-and-elastic-net/
 * https://www.guru99.com/r-decision-trees.html
+* https://www.kaggle.com/ambarish/tutorial-detailed-spooky-fun-eda-and-modelling
+* https://cran.r-project.org/web/packages/word2vec/readme/README.html
+* https://www.youtube.com/watch?v=Zyu9cm4ui2c
+* https://cran.r-project.org/web/packages/word2vec/word2vec.pdf
+* http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
+* https://dl.acm.org/doi/pdf/10.1145/3232676
+* https://www.tidytextmining.com/topicmodeling.html
+* https://slcladal.github.io/topicmodels.html
+* https://towardsdatascience.com/beginners-guide-to-lda-topic-modelling-with-r-e57a5a8e7a25
+
 </div>
 
