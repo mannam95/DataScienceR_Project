@@ -30,7 +30,7 @@ text-align: justify}
 
 
 <div style="margin-bottom:50px;">
-## 1 Background and motivation
+## 1) Background and motivation
 ***
 <style>
 div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
@@ -55,7 +55,7 @@ Due to emergence of social media there has been increasing incidences of hate sp
 </div>
 
 
-## 2 Related Work
+## 2) Related Work
 ***
 <p style="text-align: justify;">
 The goal of our project is to classify the users and distinguish them on the basis of their tweets as Hate spreaders or not. While several other works exist on performing the same tasks, in the virtual world factors such as virality, or presumed anonymity distinguishes it from offline communication and make it potentially more dangerous and hurtful and thus the underlying work associated with it also very difficult.
@@ -69,7 +69,7 @@ We also read the research done by Bosco et al and Manne, 2017 and  *Università 
 <p style="text-align: justify;">
 Our method is complementary to the cited studies, but our project has unique characteristics that we will discuss here. We employ two types of features in our feature extraction procedure: "generic text mining features" and "particular hate speech detection features."  This distinction is important in our approach since the second group of characteristics is focused on the problem's specificities. To begin, we give more thorough definitions: we compare hate speech to other relevant ideas like sentiments/emotions, topics, TF-IDF and embeddings like word2vec, doc2vec and glove embeddings of hatred, and list hate speech classification standards.
 </p>
-## 3 Project objectives
+## 3) Project objectives
 ***
 
 1. Classification of twitter users whether the user spread hate or not (binary     classification)
@@ -79,7 +79,7 @@ Our method is complementary to the cited studies, but our project has unique cha
 5. Visualizing insights after classification.
 
 
-## 4 Dataset
+## 4) Dataset
 ***
 
 * **Data source**<br>
@@ -99,7 +99,7 @@ R libraries like dplyr, xml2 and stringr were used for conversion.
 After pre-processing, the dataset in the csv format was used further for analysis and feature extraction. However we cannot share the dataset in public since the dataset is confidential and was acquired by requesting for research purposes only. 
 </p>
 
-## 5 Text Preprocessing
+## 5) Text Preprocessing
 ***
 <p style="text-align: justify;">
 To preprocess the text simply means to bring the text into a form that is predictable and analyzable for our task. For our project, a task here is a combination of approach and domain. For example, extracting top keywords with TF-IDF (approach) from Tweets (domain) is an example of our Task. Our dataset contains textual data. Thus, we performed pre-processing on our dataset before moving to exploratory data analysis.This is a very important step in Natural language processing and for building any machine learning model as it helps in minimizing the computational time and also produces better quality tokens which further helps in correct research. The objective was achieved by using R libraries like dplyr,tm  and tidyverse.
@@ -135,13 +135,9 @@ text_preprocessing <- function(data) {
 ```
 
 
-
-
-
-
-## 6 Exploratory Data Analysis
+## 6) Exploratory Data Analysis
 ***
-### **6.1 Glimpse of Data ** 
+### **6.1) Glimpse of Data ** 
 <p style="text-align: justify;">
 The glimpse() function of the dplyr package can be used to see the columns of the dataset and display some portion of the data with respect to each attribute that can fit on a single line.<br> Here is glimpse of our dataset: </p>
 
@@ -149,7 +145,7 @@ The glimpse() function of the dplyr package can be used to see the columns of th
 knitr::include_graphics(here("plots","data_glimpse.png"))
 ```
 
-### **6.2 Wordclouds ** 
+### **6.2) Wordclouds ** 
 <p style="text-align: justify;">
 A word cloud is a collection or cluster of words which works in a simple way of depicting the source textual data ( tweets in our case) in different sizes. The bigger and bolder the word appears, the more often it’s mentioned within our dataset and the more important it is.
 It is also known as tag clouds or text clouds and are ideal ways to pull out the most pertinent parts of textual data. They can also help business users compare and contrast two different pieces of text to find the wording similarities between the two like here we have derived Word Clouds for authors who are spreading hate and for authors who are not.
@@ -171,7 +167,7 @@ We generated word clouds for tweets which are NOT spreading hate, as posted by v
 knitr::include_graphics(here("plots","Wordcloud_for_not_hate_bird.png"))
 ```
 
-### **6.3 Term Frequency ** 
+### **6.3) Term Frequency ** 
 <p style="text-align: justify;">
 We analysed the frequency of words occurring in Tweets made by authors spreading Hate and Non Hate. 
 Words related to politics like Trump, Impeachment, President are majorly found in Hate spreading tweets. Also, words like Kardashians, Black, Awards, Women are found frequently too. 
@@ -225,10 +221,7 @@ knitr::include_graphics(here("plots","word_usage.png"))
 
 
 
-
-
-
-### **6.4 Tweet Length Comparison ** 
+### **6.4) Tweet Length Comparison ** 
 
 <p style="text-align: justify;">
 We next compare average length of tweets in number of characters for people spreading hate and those who are not. There was no significant difference found in length of tweets.
@@ -248,7 +241,7 @@ knitr::include_graphics(here("plots","sentence_length_comparison.png"))
 
 
 
-#### **6.5 Topic Modeling** 
+#### **6.5) Topic Modeling** 
 <p style="text-align: justify;">
 We used LDA (Latent Dirichlet allocation) to discover prevalent topics used by Hate spreading and non Hate spreading Authors. LDA is unsupervised classification of documents , in our case , a document is a collection of tweets tweeted by Authors.<br> 
 We observed that Hate Spreading Author’s Tweeted majorly about "Politics" and then followed by  Kardashians Jordyn Woods i.e. "Entertainment and Fashion industry". Whereas, Non Hate Spreading Authors tweeted more about topics like "TV Series", "Tech Products" and comparatively less about "Politics".
@@ -274,7 +267,7 @@ knitr::include_graphics(here("plots","topics_nonHate.png"))
 
 
 
-#### **6.6 Sentiment Analysis** 
+#### **6.6) Sentiment Analysis** 
 <p style="text-align: justify;">
 We examined the overall tweets in our training dataset for their sentiments , and the following Pie plot shows the distribution of different emotions exhibited in tweets of Hate spreading  and non Hate spreading authors. We are not able to observe huge difference  in emotions by both the category.
 </p>
@@ -297,14 +290,16 @@ ggplot(emotions_df_column_count_df,
   theme(legend.position = "FALSE") +
   labs(title = "Tweets Emotion Analysis")
 
-```{r,out.width='80%', fig.align='center', fig.cap='Overall Emotions distribution in Tweets',echo = FALSE}
-knitr::include_graphics(here("plots","emotions_Plot.png"))
-
+```{r,out.width='80%', fig.align='center',echo = FALSE}
+knitr::include_graphics(here("plots","hate_emotions_Plot.png"))
+```
+```{r,out.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","No_hate_emotions_Plot.png"))
 ```
 
-## 7 Feature Engineering
+## 7) Feature Engineering
 ***
-#### **7.1 Word2vec**
+#### **7.1) Word2vec**
 <p style="text-align: justify;">
 Word2Vec is a technique of natural language processing which uses a neural network model to learn word association from a large corpus of data. As the name suggests, word2vec represents each word with a list of numbers called a vector. These vectors of each word can be represented in multiple dimensions and are chosen by the model in a way that various mathematical functions like cosine similarity etc can be applied which helps in understanding the semantic similarity between the words.
 </p>
@@ -352,7 +347,7 @@ knitr::include_graphics(here("plots","ScatterPlot_Hate_Speech_Corelations.png"))
 ```
 
 
-#### **7.2 Glove**
+#### **7.2) Glove**
 <p style="text-align: justify;">
 We used Pre-trained Glove embeddings trained on twitter dataset as tweets tend to be short and therefore capturing global word-word occurrence statistics can best be captured if baseline dataset also exhibits the same structure.<br>
 Each tweet by the author is represented as a vector of 25 Dimension. We decided for a 25 dimension vector as dimensions larger than 25 require more storage and computation time. 
@@ -373,7 +368,7 @@ knitr::include_graphics(here("plots","scatterplotPCA.png"))
 <p style="text-align: justify;">
 Since , Each author is labelled as Hate spreader or non hate spreader based upon the results of his/her tweets combined. Therefore, We also tried to plot Authors Signatures ( obtained by combining all his/her tweet’s vectors) . We used PCA to reduce dimensions for plotting the result as a scatterplot. We are not able to get much insights and separation of the classes from the scatterplot , classes seem to be overlapped. 
 </p>
-#### **7.3 Sentiment Analysis**
+#### **7.3) Sentiment Analysis**
 <p style="text-align: justify;">
 The Bar chart shows the overall sentiment analysis of tweets by both category of authors with 60% tweets having negative and 40% positive sentiment. 
 </p>
@@ -408,7 +403,7 @@ knitr::include_graphics(here("plots","author_Plot.png"))
 ```
 
 
-## 8 Modelling and Results
+## 8) Modelling and Results
 ***
 <p style="text-align: justify;">
 We have used 4 machine learning models and compared different evaluation metrics for them to achieve classification.Combination of all the features which was generated by the feature extraction phase was used as input for the models.<br>
@@ -442,6 +437,28 @@ else
 In the above algorithm we have made 2 assumptions.
 <li>Ignoring the tweet if the positive and negative score is 0 as the text could be neutral.</li>
 <li> We are considering the tweet as negative even when the positive and negative scores are equal. We are biased towards making it as negative.</li>
+**Class Data Distribution**<br>
+<p style="text-align: justify;">
+For training and test data we created a class distribution of data and observed that for training around 55% of data is related to authors belonging to class 0(Not spreading hate) and 45% to class 1(spreading hate).With this dataset we started with model training.
+</p>
+```{r,eval=FALSE}
+barplot(prop.table(table(data_train$Custom_Target)),
+        col = "#219ebc",
+        ylim = c(0,1),
+        main = "Training Class Distribution")
+```{r,rout.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","train_dist.png"))
+```
+<p style="text-align: justify;">
+Similarly for test data around 55% of data is related to authors belonging to class 0(Not spreading hate) and 45% to class 1(spreading hate).
+</p>
+```{r,rout.width='80%', fig.align='center', echo = FALSE}
+knitr::include_graphics(here("plots","test_dist.png"))
+```
+
+
+
+
 
 **Evaluation**<br>
 For evaluation we have used Confusion matrix to evaluate the model’s performance. The measures recorded are Accuracy, Precision, Recall and F1-Score.<br>
@@ -511,7 +528,7 @@ knitr::include_graphics(here("plots","per_tweet_result.png"))
 <li>Using Extracted Features, highest Accuracy of 86% is achieved by Logistic Regression followed by Decision tree with 85%.</li> 
 <li>We got better results with Word2Vec alone, therefore we decided to drop Glove embeddings for further analysis. This will help us to reduce computation time during training and testing.</li>
 
-## 9 Conclusion
+## 9) Conclusion
 ***
 <p style="text-align: justify;">
 1. We explored the dataset for prominent words and relations of words to target using word clouds, Frequency comparison plots etc. We concluded that there are common words used in both categories but their frequency varies.<br> 
@@ -521,14 +538,14 @@ knitr::include_graphics(here("plots","per_tweet_result.png"))
 In future, different methods can be explored for author level classification.
 </p>
 
-## 10 Github and Related Links
+## 10) Github and Related Links
 ***
 GitHub - https://github.com/anish-singh-07/DataScienceR<br>
 Dataset - https://pan.webis.de/clef21/pan21-web/author-profiling.html <br>
 Screencast Link - <br>
 Shinny App Link- <br>
 
-## 11 Refernce Links
+## 11) Refernce Links
 ***
 <div class="bodyRmdContent">
 * http://personales.upv.es/prosso/resources/BasileEtAl_SemEval19.pdf
@@ -549,7 +566,7 @@ Shinny App Link- <br>
 
 </div>
 
-## 12 Team members
+## 12) Team members
 ***
 | Name                       | Email-Id                                                     | Mattr No. |
 | -------------------------- | ------------------------------------------------------------ | --------- |
