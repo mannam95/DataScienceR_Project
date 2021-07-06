@@ -54,17 +54,19 @@ plot_ly(sentiment_types_df, y=~syuzhet, type="scatter", mode="jitter", name="syu
 #End of sentiments visualizations
 
 #Start of Emotions Visualizations
-emotions_df <- features_Data %>%
+#Start of Hate visualization
+emotions_df_hate <- features_Data %>%
+  filter(Target == 1) %>%
   select(anger, anticipation, disgust, fear, joy, sadness, surprise, trust)
 
-emotions_df_column_count = colSums(emotions_df)
-emotions_df_column_count_df = data.frame(count=emotions_df_column_count, Different_Emotions=names(emotions_df_column_count))
+emotions_df_column_count_hate = colSums(emotions_df)
+emotions_df_column_count_df_hate = data.frame(count=emotions_df_column_count_hate, Different_Emotions=names(emotions_df_column_count_hate))
 
-emotions_df_column_count_df <- emotions_df_column_count_df %>%
+emotions_df_column_count_df_hate <- emotions_df_column_count_df_hate %>%
   mutate(percent = count / sum(count) * 100)
 
 ##Start of Pie chart
-ggplot(emotions_df_column_count_df, 
+ggplot(emotions_df_column_count_df_hate, 
        aes(x = "", 
            y = percent, 
            fill = Different_Emotions)) +
@@ -79,8 +81,40 @@ ggplot(emotions_df_column_count_df,
               direction = -1) +
   theme_void() +
   theme(legend.position = "FALSE") +
-  labs(title = "Tweets Emotion Analysis")
+  labs(title = "Hate Spread Authors Tweets Emotion Analysis")
 ##End of Pie chart
+#End of Hate visualization
+
+#Start of No Hate visualization
+emotions_df_nohate <- features_Data %>%
+  filter(Target == 0) %>%
+  select(anger, anticipation, disgust, fear, joy, sadness, surprise, trust)
+
+emotions_df_column_count_nohate = colSums(emotions_df_nohate)
+emotions_df_column_count_df_nohate = data.frame(count=emotions_df_column_count_nohate, Different_Emotions=names(emotions_df_column_count_nohate))
+
+emotions_df_column_count_df_nohate <- emotions_df_column_count_df_nohate %>%
+  mutate(percent = count / sum(count) * 100)
+
+##Start of Pie chart
+ggplot(emotions_df_column_count_df_nohate, 
+       aes(x = "", 
+           y = percent, 
+           fill = Different_Emotions)) +
+  geom_bar(width = 1, 
+           stat = "identity", 
+           color = "black") +
+  geom_text(aes(label = paste0(Different_Emotions, "\n", round(percent,2))),
+            position = position_stack(vjust = 0.5),
+            color = "black") +
+  coord_polar("y", 
+              start = 0, 
+              direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "No Hate Spread Authors Tweets Emotion Analysis")
+##End of Pie chart
+#End of No Hate visualization
 #End of Emotions Visualizations
 
 #Start of Positive Visualizations

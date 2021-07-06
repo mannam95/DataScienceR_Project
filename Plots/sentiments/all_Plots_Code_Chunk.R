@@ -9,9 +9,9 @@ plot_ly(sentiment_types_df, y=~syuzhet, type="scatter", mode="jitter", name="syu
 
 #End of sent_Plot.png
 
-#Start of emotions_Plot.png
+#Start of hate_emotions_Plot.png
 
-ggplot(emotions_df_column_count_df, 
+ggplot(emotions_df_column_count_df_hate, 
        aes(x = "", 
            y = percent, 
            fill = Different_Emotions)) +
@@ -26,9 +26,30 @@ ggplot(emotions_df_column_count_df,
               direction = -1) +
   theme_void() +
   theme(legend.position = "FALSE") +
-  labs(title = "Tweets Emotion Analysis")
+  labs(title = "Hate Spread Authors Tweets Emotion Analysis")
 
-#End of emotions_Plot.png
+#End of hate_emotions_Plot.png
+
+#Start of No_hate_emotions_Plot.png
+
+ggplot(emotions_df_column_count_df_nohate, 
+       aes(x = "", 
+           y = percent, 
+           fill = Different_Emotions)) +
+  geom_bar(width = 1, 
+           stat = "identity", 
+           color = "black") +
+  geom_text(aes(label = paste0(Different_Emotions, "\n", round(percent,2))),
+            position = position_stack(vjust = 0.5),
+            color = "black") +
+  coord_polar("y", 
+              start = 0, 
+              direction = -1) +
+  theme_void() +
+  theme(legend.position = "FALSE") +
+  labs(title = "No Hate Spread Authors Tweets Emotion Analysis")
+
+#End of No_hate_emotions_Plot.png
 
 #Start of pos_neg_Plot.png
 
