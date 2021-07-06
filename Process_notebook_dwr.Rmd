@@ -423,9 +423,9 @@ The “CustomTarget” is extracted as mentioned below. Syuzhet package gives a 
 
 Algorithm for extracting the “CustomTarget”
 ```{r, eval=FALSE}
- If(positive == 0 && negative ==0)
+if(positive == 0 && negative ==0)
 {
-#ignore the tweet
+  #ignore the tweet
 }
 else if(negative >= positive)
 {
@@ -466,27 +466,36 @@ Predictions are generated on the test data at tweet level as the models are trai
 
 Algorithm to predict labels for Authors 
 ```{r, eval=FALSE}
-While(True){
-CountOnes = 0
-CountZeros = 0
-	While(Author_ID_IsSame){
-	   If(predicted_Target == 1){
-		CountOnes  +=1
-                 } 
-               else{
-              CountZeros  +=1
-                     }
-                }
-            If(CountOnes >= CountZeros){
-                Author_Predicted_Target = 1
-                } 
-             else{
-             Author_Predicted_Target = 1
-                }
-           If(No_Data){
-	break
-            }
-      }
+while(True)
+{
+  CountOnes = 0
+  CountZeros = 0
+	while(Author_ID_IsSame)
+	{
+	   if(predicted_Target == 1)
+	   {
+	      CountOnes  +=1
+     } 
+     else
+     {
+        CountZeros  +=1
+     }
+	}
+	
+  if(CountOnes >= CountZeros)
+  {
+     Author_Predicted_Target = 1
+  } 
+  else
+  {
+     Author_Predicted_Target = 1
+  }
+	
+  if(No_Data)
+  {
+	  break
+  }
+}
 
 ```
 
