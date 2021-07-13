@@ -1,16 +1,16 @@
 #a function that will return the evaluation metric
 evaluation_Metric <- function(target, predicted, modelName) {
   conf_matrix <- as.matrix(table(Actual = target, Predicted = predicted))
-  total_instances = sum(conf_matrix) # number of instances
-  diag_matrix = diag(conf_matrix) # number of correctly classified instances per class 
-  rowsums = apply(conf_matrix, 1, sum) # number of instances per class
-  colsums = apply(conf_matrix, 2, sum) # number of predictions per class
+  TP = conf_matrix[4]
+  TN = conf_matrix[1]
+  FP = conf_matrix[3]
+  FN = conf_matrix[2]
   
   
-  accuracy = sum(diag_matrix) / total_instances
-  precision = diag_matrix / colsums
-  recall = diag_matrix / rowsums
-  f1 = (2 * precision * recall) / (precision + recall)
+  accuracy = (TP + TN)/(TP + TN + FP +FN)
+  precision = TP/(TP + FP)
+  recall = TP/(TP + FN)
+  f1 = 2 * ((precision * recall) / (precision + recall))
   
   model_eval_df <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("Model", "Accuracy", "Precision", "Recall", "F1_Score"))))
   model_eval_df[nrow(model_eval_df) + 1,] = c(modelName, round(accuracy, 2), round(precision, 2), round(recall, 2), round(f1, 2))

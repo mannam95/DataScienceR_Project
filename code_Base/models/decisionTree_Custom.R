@@ -62,8 +62,8 @@ pred_test <- predict(fit, data_test[!(names(data_test) %in% c('Author_Id', 'X', 
 #print(paste('Confusion Matrix based on all tweet level by Decision Tree Model'))
 eval_df <- evaluation_Metric(features_Data_test$Custom_Target, pred_test, "Decision Tree")
 #write to a csv file
-#write_csv(rbind(curr_eval__tweets_df, eval_df), output_Path2)
+write_csv(rbind(curr_eval__tweets_df, eval_df), output_Path2)
 
 eval_df <- return_accuracy(pred_test, "Decision Tree")
 #write to a csv file
-#write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)
+write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)

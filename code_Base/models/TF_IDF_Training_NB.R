@@ -67,15 +67,3 @@ test_predicted <-
 eval_df <- evaluation_Metric(tf_idF_DF_test$Label, test_predicted, "TF-IDF Naive Bayes")
 #write to a csv file
 write_csv(rbind(curr_eval__authors_df, eval_df), output_Path1)
-
-
-
-
-
-
-
-
-
-
-
-
